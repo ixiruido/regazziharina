@@ -1,20 +1,20 @@
 backend:
   name: github
   repo: <ixiruido>/<patagoniacodex>
-  branch: main/demo/regazziharina/
+  branch: main
   site_domain: patagoniacodex.pages.dev
   base_url: https://<TU-WORKER-AUTH>.workers.dev # El mediador de login
   auth_endpoint: auth
 
 # Rutas de Archivos en tu repositorio de GitHub
-media_folder: "main/demo/regazziharina/images" # Ruta desde la raíz de GitHub para guardar fotos
+media_folder: "images" # Ruta desde la raíz de GitHub para guardar fotos
 public_folder: "images" # Cómo lee tu HTML las fotos (relativo a su index.html)
 
 collections:
   - name: "catalogo"
     label: "Catálogo de Productos"
     # Apuntamos a la subcarpeta exacta donde está tu archivo JSON
-    folder: "main/demo/regazziharina" 
+    folder: "main" 
     extension: "json"
     format: "json"
     create: true
@@ -23,7 +23,7 @@ collections:
     files:
       - label: "Lista de Productos"
         name: "lista_productos"
-        file: "main/demo/regazziharina/productos.json" 
+        file: "main/productos.json" 
         fields:
           - label: "Productos"
             name: "productos"
