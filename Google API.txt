@@ -1,0 +1,478 @@
+/**
+ * ==========================================
+ * CONFIGURACIÓN
+ * ==========================================
+ */
+
+const CONFIG = {
+
+  idPlanilla:
+    "1oQC-N91mh9gZdqTkinFRwrKQN7OIXTKEogYDKB5RRA0",
+
+  nombreHoja:
+    "Propiedades",
+
+  usuario:
+    "ixiruido",
+
+  repositorio:
+    "patagoniacodex",
+
+  workflow:
+    "actualizar-propiedades.yml",
+
+  rama:
+    "main",
+
+  nombreDemo:
+    "inm"
+
+};
+
+
+/**
+ * ==========================================
+ * GENERAR JSON
+ * ==========================================
+ */
+
+function doGet() {
+
+  const planilla =
+    SpreadsheetApp.openById(
+      CONFIG.idPlanilla
+    );
+
+  const hoja =
+    planilla.getSheetByName(
+      CONFIG.nombreHoja
+    );
+
+  const rango =
+    hoja.getDataRange();
+
+  const datos =
+    rango.getValues();
+
+  datos.shift();
+
+
+  // ============================
+  // CONFIGURACIÓN WHATSAPP
+  // ============================
+
+  const whatsapp =
+    "5492996100676";
+
+  const mensajeWhatsapp =
+    "Hola! Estoy interesado en esta propiedad: ";
+
+
+  // ============================
+  // PROPIEDADES
+  // ============================
+
+  const propiedades = [];
+
+
+  for (let i = 0; i < datos.length; i++) {
+
+    const fila =
+      datos[i];
+
+    const numeroFila =
+      i + 2;
+
+
+    // ------------------------------------------
+    // IGNORAR FILAS SIN DATOS
+    // ------------------------------------------
+
+    if (
+      !fila[0] ||
+      String(fila[0]).trim() === ""
+    ) {
+
+      continue;
+
+    }
+
+
+    // ------------------------------------------
+    // OBTENER IMAGEN
+    // COLUMNA G = 7
+    // ------------------------------------------
+
+    let fotoUrl = "";
+
+    const celdaFoto =
+      rango.getCell(
+        numeroFila,
+        7
+      ).getValue();
+
+
+    if (
+      celdaFoto &&
+      typeof celdaFoto === "object" &&
+      typeof celdaFoto.getContentUrl === "function"
+    ) {
+
+      fotoUrl =
+        celdaFoto.getContentUrl();
+
+    }
+
+
+    // ------------------------------------------
+    // LIMPIAR URL
+    // ------------------------------------------
+
+    if (
+      typeof fotoUrl === "string"
+    ) {
+
+      const match =
+        fotoUrl.match(
+          /\((https?:\/\/[^)]+)\)/
+        );
+
+
+      if (match) {
+
+        fotoUrl =
+          match[1];
+
+      }
+
+
+      const inicio =
+        fotoUrl.indexOf(
+          "https://"
+        );
+
+
+      if (inicio > 0) {
+
+        fotoUrl =
+          fotoUrl.substring(
+            inicio
+          );
+
+      }
+
+    }
+
+
+    // ------------------------------------------
+    // NOMBRE PERMANENTE
+    // ------------------------------------------
+
+    const nombreFoto =
+      "propiedad-" +
+      numeroFila +
+      ".jpg";
+
+
+    // ------------------------------------------
+    // PROPIEDAD
+    // ------------------------------------------
+
+    propiedades.push({
+
+      tipo:
+        fila[0],
+
+      localidad:
+        fila[1],
+
+      direccion:
+        fila[2],
+
+      categoria:
+        fila[3],
+
+      tamanio:
+        fila[4],
+
+      precio:
+        fila[5],
+
+      foto:
+        nombreFoto,
+
+      fotoUrl:
+        fotoUrl,
+
+      detalles:
+        fila[7],
+
+      capacidad:
+        fila[8],
+
+      orden:
+        fila[9],
+
+      visible:
+        fila[10],
+
+      destacado:
+        fila[11],
+
+      stock:
+        fila[12]
+
+    });
+
+  }
+
+
+  // ============================
+  // RESPUESTA
+  // ============================
+
+  const respuesta = {
+
+    whatsapp:
+      whatsapp,
+
+    mensajeWhatsapp:
+      mensajeWhatsapp,
+
+    propiedades:
+      propiedades
+
+  };
+
+
+  return ContentService
+    .createTextOutput(
+      JSON.stringify(
+        respuesta
+      )
+    )
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
+
+}
+
+
+/**
+ * ==========================================
+ * BOTÓN "GUARDAR PROPIEDADES"
+ * ==========================================
+ */
+
+function guardarPropiedades() {
+
+  const ui =
+    SpreadsheetApp.getUi();
+
+
+  const respuesta =
+    ui.alert(
+
+      "Guardar cambios",
+
+      "¿Querés publicar los cambios de las propiedades en la web?",
+
+      ui.ButtonSet.YES_NO
+
+    );
+
+
+  if (
+    respuesta !== ui.Button.YES
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    dispararGitHub();
+
+
+    ui.alert(
+
+      "Cambios enviados",
+
+      "Los cambios fueron enviados correctamente a la Web.\n\n" +
+      "En instantes se actualizarán las propiedades.",
+
+      ui.ButtonSet.OK
+
+    );
+
+
+  } catch (error) {
+
+    ui.alert(
+
+      "Error",
+
+      "No se pudieron enviar los cambios a GitHub.\n\n" +
+      error.message,
+
+      ui.ButtonSet.OK
+
+    );
+
+
+    Logger.log(
+      "ERROR: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/**
+ * ==========================================
+ * ENVIAR WORKFLOW A GITHUB
+ * ==========================================
+ */
+
+function dispararGitHub() {
+
+  const token =
+    PropertiesService
+      .getScriptProperties()
+      .getProperty(
+        "GITHUB_TOKEN"
+      );
+
+
+  if (!token) {
+
+    throw new Error(
+      "No se encontró GITHUB_TOKEN en las propiedades del proyecto."
+    );
+
+  }
+
+
+  const url =
+
+    "https://api.github.com/repos/" +
+
+    CONFIG.usuario +
+    "/" +
+
+    CONFIG.repositorio +
+
+    "/actions/workflows/" +
+
+    CONFIG.workflow +
+
+    "/dispatches";
+
+
+  const payload = {
+
+    ref:
+      CONFIG.rama,
+
+    inputs: {
+
+      demo_target:
+        CONFIG.nombreDemo
+
+    }
+
+  };
+
+
+  const options = {
+
+    method:
+      "post",
+
+    contentType:
+      "application/json",
+
+    payload:
+      JSON.stringify(
+        payload
+      ),
+
+    headers: {
+
+      Authorization:
+        "Bearer " + token,
+
+      Accept:
+        "application/vnd.github+json",
+
+      "X-GitHub-Api-Version":
+        "2022-11-28"
+
+    },
+
+    muteHttpExceptions:
+      true
+
+  };
+
+
+  const response =
+    UrlFetchApp.fetch(
+      url,
+      options
+    );
+
+
+  const status =
+    response.getResponseCode();
+
+  const body =
+    response.getContentText();
+
+
+  Logger.log(
+    "GitHub HTTP STATUS: " +
+    status
+  );
+
+  Logger.log(
+    "GitHub RESPONSE: " +
+    body
+  );
+
+
+  if (
+    status !== 204 &&
+    status !== 200
+  ) {
+
+    throw new Error(
+
+      "GitHub rechazó el workflow.\n\n" +
+
+      "HTTP: " +
+      status +
+
+      "\n" +
+
+      "Respuesta: " +
+      body
+
+    );
+
+  }
+
+
+  Logger.log(
+    "Workflow enviado correctamente."
+  );
+
+  Logger.log(
+    "Propiedades publicadas."
+  );
+
+}
