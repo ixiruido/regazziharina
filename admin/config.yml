@@ -11,22 +11,22 @@ media_folder: "images" # Ruta desde la raíz de GitHub para guardar fotos
 public_folder: "images" # Cómo lee tu HTML las fotos (relativo a su index.html)
 
 collections:
-  - name: "catalogo"
-    label: "Catálogo de Productos"
+  - name: "inmuebles"
+    label: "Catálogo de Inmuebles"
     # Apuntamos a la subcarpeta exacta donde está tu archivo JSON
     folder: "main" 
     extension: "json"
     format: "json"
     create: true
     slug: "{{fields.id}}"
-    # IMPORTANTE: Cambia "productos.json" por el nombre exacto de tu archivo
+    # IMPORTANTE: Cambia "inmuebles.json" por el nombre exacto de tu archivo
     files:
-      - label: "Lista de Productos"
-        name: "lista_productos"
-        file: "main/productos.json" 
+      - label: "Lista de Inmuebles"
+        name: "lista_inmuebles"
+        file: "main/inmuebles.json" 
         fields:
-          - label: "Productos"
-            name: "productos"
+          - label: "Inmuebles"
+            name: "inmuebles"
             widget: "list"
             fields:
               - { label: "ID Único", name: "id", widget: "string" }
