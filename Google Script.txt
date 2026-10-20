@@ -1,0 +1,343 @@
+/**
+ * ==========================================
+ * CONFIGURACIÓN
+ * ==========================================
+ */
+
+const CONFIG = {
+  usuario: "ixiruido",
+  repositorio: "patagoniacodex",
+  workflow: "actualizar-avisos.yml",
+  rama: "main",
+  nombreDemo: "regazziharina"
+};
+
+
+/**
+ * ==========================================
+ * GENERAR JSON PARA GITHUB
+ * ==========================================
+ */
+
+function doGet() {
+
+  // Abre la hoja de cálculo activa
+  var sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getActiveSheet();
+
+  var data = sheet
+    .getDataRange()
+    .getValues();
+
+  var jsonArray = [];
+
+  // Recorre las filas empezando desde la fila 2
+  for (var i = 1; i < data.length; i++) {
+
+    var row = data[i];
+    var aviso = {};
+
+    // Solo agrega el aviso si tiene título
+    if (row[0].toString().trim() !== "") {
+
+      aviso.titulo = row[0];
+
+      // Formatea la fecha
+      if (row[1] instanceof Date) {
+
+        aviso.fecha = Utilities.formatDate(
+          row[1],
+          Session.getScriptTimeZone(),
+          "dd/MM/yyyy"
+        );
+
+      } else {
+
+        aviso.fecha = row[1];
+
+      }
+
+      aviso.autor = row[2];
+      aviso.texto = row[3];
+      aviso.adjunto = row[4];
+
+      jsonArray.push(aviso);
+    }
+  }
+
+  // Devuelve los datos en formato JSON
+  return ContentService
+    .createTextOutput(
+      JSON.stringify(jsonArray)
+    )
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
+}
+
+
+/**
+ * ==========================================
+ * AL MODIFICAR LA HOJA
+ * ==========================================
+ *
+ * IMPORTANTE:
+ *
+ * Esta función ya NO manda nada a GitHub.
+ *
+ * Podés conservar el trigger que tenías,
+ * pero ahora simplemente no hará nada.
+ *
+ * Si querés, también podés eliminar
+ * directamente este trigger.
+ */
+
+function alModificarHoja(e) {
+
+  // No hacemos nada.
+  //
+  // Los cambios se publican solamente
+  // cuando el usuario pulsa el botón
+  // "Guardar cambios".
+
+  return;
+}
+
+
+/**
+ * ==========================================
+ * BOTÓN "GUARDAR CAMBIOS"
+ * ==========================================
+ *
+ * Esta función se asigna al botón
+ * dentro de Google Sheets.
+ */
+
+function guardarCambios() {
+
+  var ui = SpreadsheetApp.getUi();
+
+
+  // ------------------------------------------
+  // CONFIRMACIÓN
+  // ------------------------------------------
+
+  var respuesta = ui.alert(
+    "Guardar cambios",
+    "¿Querés publicar los cambios en la web?",
+    ui.ButtonSet.YES_NO
+  );
+
+
+  // Si el usuario pulsa NO, cancelamos.
+  if (respuesta !== ui.Button.YES) {
+
+    return;
+
+  }
+
+
+  // ------------------------------------------
+  // MOSTRAR PROCESANDO
+  // ------------------------------------------
+
+  try {
+
+    ui.alert(
+      "Publicando...",
+      "Los cambios se están enviando a la Web. " +
+      "Puede tardar unos minutos en reflejarse.",
+      ui.ButtonSet.OK
+    );
+
+
+    // ----------------------------------------
+    // ENVIAR A GITHUB
+    // ----------------------------------------
+
+    dispararGitHub();
+
+
+    // ----------------------------------------
+    // CONFIRMACIÓN
+    // ----------------------------------------
+
+    ui.alert(
+      "Cambios guardados",
+      "Los cambios fueron enviados correctamente.\n\n" +
+      "GitHub Actions se encargará de actualizar " +
+      "el archivo avisos.json.",
+      ui.ButtonSet.OK
+    );
+
+
+  } catch (error) {
+
+    // ----------------------------------------
+    // ERROR
+    // ----------------------------------------
+
+    ui.alert(
+      "Error",
+      "No se pudieron enviar los cambios a GitHub.\n\n" +
+      error.message,
+      ui.ButtonSet.OK
+    );
+
+    Logger.log(
+      "ERROR: " + error.message
+    );
+
+  }
+}
+
+
+/**
+ * ==========================================
+ * ENVIAR WORKFLOW A GITHUB
+ * ==========================================
+ */
+
+function dispararGitHub() {
+
+  // ------------------------------------------
+  // OBTENER TOKEN
+  // ------------------------------------------
+
+  const token = PropertiesService
+    .getScriptProperties()
+    .getProperty("GITHUB_TOKEN");
+
+
+  if (!token) {
+
+    throw new Error(
+      "No se encontró GITHUB_TOKEN en las propiedades del proyecto."
+    );
+
+  }
+
+
+  // ------------------------------------------
+  // URL DE GITHUB
+  // ------------------------------------------
+
+  const url =
+    "https://api.github.com/repos/" +
+    CONFIG.usuario +
+    "/" +
+    CONFIG.repositorio +
+    "/actions/workflows/" +
+    CONFIG.workflow +
+    "/dispatches";
+
+
+  // ------------------------------------------
+  // DATOS DEL WORKFLOW
+  // ------------------------------------------
+
+  const payload = {
+
+    ref: CONFIG.rama,
+
+    inputs: {
+
+      demo_target:
+        CONFIG.nombreDemo
+
+    }
+
+  };
+
+
+  // ------------------------------------------
+  // CONFIGURACIÓN DE LA PETICIÓN
+  // ------------------------------------------
+
+  const options = {
+
+    method: "post",
+
+    contentType: "application/json",
+
+    payload:
+      JSON.stringify(payload),
+
+    headers: {
+
+      Authorization:
+        "Bearer " + token,
+
+      Accept:
+        "application/vnd.github+json",
+
+      "X-GitHub-Api-Version":
+        "2022-11-28"
+
+    },
+
+    muteHttpExceptions: true
+
+  };
+
+
+  // ------------------------------------------
+  // LLAMADA A GITHUB
+  // ------------------------------------------
+
+  const response =
+    UrlFetchApp.fetch(
+      url,
+      options
+    );
+
+
+  const status =
+    response.getResponseCode();
+
+  const body =
+    response.getContentText();
+
+
+  // ------------------------------------------
+  // LOG
+  // ------------------------------------------
+
+  Logger.log(
+    "GitHub HTTP STATUS: " +
+    status
+  );
+
+  Logger.log(
+    "GitHub RESPONSE: " +
+    body
+  );
+
+
+  // ------------------------------------------
+  // COMPROBAR RESPUESTA
+  // ------------------------------------------
+
+  if (
+    status !== 204 &&
+    status !== 200
+  ) {
+
+    throw new Error(
+      "GitHub rechazó el workflow.\n\n" +
+      "HTTP: " +
+      status +
+      "\n" +
+      "Respuesta: " +
+      body
+    );
+
+  }
+
+
+  Logger.log(
+    "Workflow enviado correctamente para la demo: " +
+    CONFIG.nombreDemo
+  );
+}

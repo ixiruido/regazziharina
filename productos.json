@@ -1,0 +1,11 @@
+{
+  "productos": [
+    {
+      "id": "001",
+      "title": "Harina Integral 1kg",
+      "price": 450.50,
+      "description": "Harina de trigo de alta calidad",
+      "image": "images/foto.png"
+    }
+  ]
+}
