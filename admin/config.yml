@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: <TU-USUARIO>/<TU-REPOSITORIO>  # Reemplazar con tu usuario y repositorio de GitHub
+  repo: <ixiruido>/<regazziharina>  # Reemplazar con tu usuario y repositorio de GitHub
   branch: main
-  site_domain: <TU-DOMINIO>  # Dominio de tu sitio (ej: regazziharina.com)
+  site_domain: ixiahora.com.ar  # Dominio de tu sitio (ej: regazziharina.com)
   base_url: https://<TU-WORKER-AUTH>.workers.dev  # Worker de Cloudflare para autenticación OAuth
   auth_endpoint: auth
 
