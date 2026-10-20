@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://patagoniacodex.com.ar/sitemap.xml
