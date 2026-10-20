@@ -23,17 +23,23 @@ El sistema utiliza **Static CMS** (antes Netlify CMS) para gestionar el contenid
 ### 1. Ver el Catálogo
 
 - Navegue a la sección "Catálogo" en el menú de navegación
-- Las propiedades se cargan automáticamente desde `inmuebles.json`
-- Cada tarjeta muestra: tipo, categoría, ubicación, dirección, detalles, tamaño, precio y botón de contacto por WhatsApp
+- Haga clic en el botón "Explorar Catálogo"
+- Las propiedades se cargarán desde `inmuebles.json`
+- Cada tarjeta muestra: tipo, categoría, ubicación, dirección, detalles, tamaño, precio
+- **Haga clic en cualquier propiedad** para ver más detalles en un modal con:
+  - Imagen grande
+  - Información completa
+  - Mapa de Google con la ubicación
+  - Botón de contacto por WhatsApp al número del estudio (+54 9 298 509-6108)
 
 ### 2. Acceder al Panel de Administración
 
-1. Vaya a la sección "Catálogo"
-2. Haga clic en el botón "Administrar Catálogo"
-3. Se abrirá `/admin/` en una nueva pestaña
-4. Haga clic en "Login with GitHub"
-5. Autorice la aplicación OAuth de GitHub
-6. Aparecerá el panel de Static CMS
+1. Navegue directamente a `/admin/` en el navegador
+2. Haga clic en "Login with GitHub"
+3. Autorice la aplicación OAuth de GitHub
+4. Aparecerá el panel de Static CMS
+
+**Nota:** Si `/admin` aparece en blanco, ver `ADMIN-TRUBLESHOOTING.md` para soluciones.
 
 ### 3. Gestionar Inmuebles con Static CMS
 

@@ -31,14 +31,21 @@ regazziharina-main/
 
 ## Uso del Catálogo Inmobiliario
 
-El catálogo se carga automáticamente desde `inmuebles.json` y muestra:
+El catálogo se muestra de forma interactiva:
 
+1. **Explorar Catálogo**: Haga clic en el botón "Explorar Catálogo" para cargar las propiedades
+2. **Ver Detalles**: Haga clic en cualquier propiedad para ver:
+   - Imagen grande
+   - Información completa
+   - Mapa de Google con la ubicación
+   - Botón de contacto por WhatsApp al estudio (+54 9 298 509-6108)
+
+El catálogo se carga desde `inmuebles.json` y muestra:
 - Tipo de propiedad (Casa, Terreno, Local, Departamento)
 - Categoría (Venta, Alquiler, Alquiler Comercial)
 - Ubicación y dirección
 - Detalles completos
 - Tamaño y precio
-- Botón de contacto por WhatsApp
 
 ## Administración del Contenido
 

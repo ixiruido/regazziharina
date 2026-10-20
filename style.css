@@ -1221,6 +1221,106 @@ a[href^="tel"] {color: inherit; text-decoration: none;}
     border-radius: 8px;
 }
 
+.catalogo-intro {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: rgba(18, 22, 31, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 8px;
+}
+
+/* Modal de propiedad */
+.propiedad-modal-content {
+    max-width: 1100px;
+    max-height: 90vh;
+}
+
+.propiedad-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+}
+
+.propiedad-modal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.propiedad-modal-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.propiedad-modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.propiedad-modal-categoria {
+    display: inline-block;
+    background-color: rgba(212, 175, 55, 0.15);
+    color: var(--gold-primary);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    align-self: flex-start;
+}
+
+.propiedad-modal-ubicacion {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.propiedad-modal-direccion {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.propiedad-modal-detalles {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.propiedad-modal-info-grid {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.propiedad-modal-info-grid span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.propiedad-modal-info-grid span strong {
+    color: var(--gold-primary);
+}
+
+.propiedad-modal-precio {
+    color: var(--gold-primary);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.propiedad-modal-map {
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
 /* Responsive adjustments for catalog */
 @media (max-width: 768px) {
     .catalogo-container {
@@ -1230,5 +1330,24 @@ a[href^="tel"] {color: inherit; text-decoration: none;}
 
     .propiedad-card {
         max-width: 100%;
+    }
+
+    .propiedad-modal-content {
+        max-width: 95%;
+        max-height: 95vh;
+    }
+
+    .propiedad-modal-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .propiedad-modal-img {
+        height: 200px;
+    }
+
+    .propiedad-modal-map {
+        height: 300px;
     }
 }
