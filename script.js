@@ -58,7 +58,10 @@ let observador;
                     link.classList.add('active');}});
 
             // Cargar avisos desde JSON
-            cargarAvisos();});
+            cargarAvisos();
+
+            // Cargar catálogo de propiedades
+            cargarCatalogo();});
 
 // Función auxiliar para parsear fechas en formato dd/mm/yyyy (argentino)
 function parseFechaArgentina(fechaStr) {
@@ -171,6 +174,60 @@ async function cargarAvisos() {
     } catch (error) {
         console.error('Error al cargar avisos:', error);
         avisosContainer.innerHTML = '<p class="avisos-placeholder">Error al cargar los avisos. Por favor, inténtelo más tarde.</p>';
+    }
+}
+
+// Función para cargar y mostrar propiedades desde inmuebles.json
+async function cargarCatalogo() {
+    const catalogoContainer = document.getElementById('catalogo-container');
+    
+    try {
+        const response = await fetch('./inmuebles.json');
+        if (!response.ok) {
+            throw new Error('No se pudo cargar el archivo de inmuebles');
+        }
+        
+        const data = await response.json();
+        const propiedades = data.propiedades || [];
+        
+        if (propiedades.length === 0) {
+            catalogoContainer.innerHTML = '<p class="catalogo-placeholder">No hay propiedades disponibles</p>';
+            return;
+        }
+        
+        // Generar HTML para cada propiedad
+        const propiedadesHTML = propiedades.map(propiedad => {
+            const whatsappURL = `https://wa.me/${data.whatsapp}?text=${encodeURIComponent(data.mensajeWhatsapp + propiedad.direccion)}`;
+            
+            return `
+                <div class="propiedad-card reveal">
+                    <img src="${propiedad.foto}" alt="${propiedad.tipo} en ${propiedad.localidad}" class="propiedad-imagen">
+                    <div class="propiedad-content">
+                        <h3 class="propiedad-tipo">${propiedad.tipo}</h3>
+                        <span class="propiedad-categoria">${propiedad.categoria}</span>
+                        <p class="propiedad-ubicacion">${propiedad.localidad}</p>
+                        <p class="propiedad-direccion">${propiedad.direccion}</p>
+                        <p class="propiedad-detalles">${propiedad.detalles}</p>
+                        <div class="propiedad-info">
+                            <span class="propiedad-info-item"><strong>Tamaño:</strong> ${propiedad.tamanio} m²</span>
+                            ${propiedad.capacidad && propiedad.capacidad !== 'N/A' ? `<span class="propiedad-info-item"><strong>Capacidad:</strong> ${propiedad.capacidad}</span>` : ''}
+                        </div>
+                        <p class="propiedad-precio">${propiedad.precio}</p>
+                        <a href="${whatsappURL}" class="propiedad-contacto" target="_blank" rel="noopener noreferrer">Contactar</a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        catalogoContainer.innerHTML = propiedadesHTML;
+        
+        // Re-inicializar el observador para los nuevos elementos
+        const nuevosReveal = document.querySelectorAll('.propiedad-card.reveal');
+        nuevosReveal.forEach(el => observador.observe(el));
+        
+    } catch (error) {
+        console.error('Error al cargar catálogo:', error);
+        catalogoContainer.innerHTML = '<p class="catalogo-placeholder">Error al cargar las propiedades. Por favor, inténtelo más tarde.</p>';
     }
 }
 
