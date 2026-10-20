@@ -1,0 +1,71 @@
+name: Actualizar avisos
+
+on:
+  # Eliminamos el schedule porque ahora Google Sheets se encarga de avisar en tiempo real
+  workflow_dispatch:
+    inputs:
+      # Agregamos esta entrada para recibir la carpeta desde Google Sheets
+      demo_target:
+        description: 'Nombre de la subcarpeta de la demo'
+        required: true
+        default: 'regazziharina'
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v5
+
+      - name: Descargar JSON desde Google Apps Script
+        run: |
+          curl -fL \
+            --retry 5 \
+            --retry-delay 5 \
+            --retry-all-errors \
+            "https://script.google.com/macros/s/AKfycbz2_RbcKd1UhWR7D3WRSK0jPps-NBdRLhcl0fykOZLhM-0yIg1Bh-CbScXJ-Gb5U8cX/exec" -o avisos_nuevo.json
+
+      - name: Mostrar respuesta recibida
+        run: |
+          echo "Tamaño:"
+          wc -c avisos_nuevo.json
+          echo ""
+          echo "Primeros 2000 caracteres:"
+          head -c 2000 avisos_nuevo.json
+          echo ""
+
+      - name: Validar JSON
+        run: |
+          python -m json.tool avisos_nuevo.json > /dev/null
+          echo "JSON válido."
+
+      - name: Comparar y actualizar
+        run: |
+          # 1. Definimos las rutas dinámicas usando la variable que manda Google
+          TARGET_DIR="demo/${{ github.event.inputs.demo_target }}"
+          TARGET_FILE="$TARGET_DIR/avisos.json"
+          
+          echo "Procesando la demo en: $TARGET_FILE"
+          
+          # Asegura que la carpeta exista (por si creas una demo nueva)
+          mkdir -p "$TARGET_DIR"
+
+          # 2. Reemplazamos la ruta fija por la variable $TARGET_FILE
+          if cmp -s "$TARGET_FILE" "avisos_nuevo.json"; then
+            echo "El catálogo de ${{ github.event.inputs.demo_target }} no cambió."
+            rm avisos_nuevo.json
+          else
+            echo "El catálogo cambió."
+            mv avisos_nuevo.json "$TARGET_FILE"
+
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            git add "$TARGET_FILE"
+            git commit -m "Actualizar avisos: ${{ github.event.inputs.demo_target }}"
+            git push
+          fi
