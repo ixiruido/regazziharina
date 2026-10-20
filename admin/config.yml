@@ -1,36 +1,56 @@
 backend:
   name: github
-  repo: <ixiruido>/<patagoniacodex>
+  repo: <TU-USUARIO>/<TU-REPOSITORIO>  # Reemplazar con tu usuario y repositorio de GitHub
   branch: main
-  site_domain: patagoniacodex.pages.dev
-  base_url: https://<TU-WORKER-AUTH>.workers.dev # El mediador de login
+  site_domain: <TU-DOMINIO>  # Dominio de tu sitio (ej: regazziharina.com)
+  base_url: https://<TU-WORKER-AUTH>.workers.dev  # Worker de Cloudflare para autenticación OAuth
   auth_endpoint: auth
 
 # Rutas de Archivos en tu repositorio de GitHub
-media_folder: "images" # Ruta desde la raíz de GitHub para guardar fotos
-public_folder: "images" # Cómo lee tu HTML las fotos (relativo a su index.html)
+media_folder: "images"  # Ruta desde la raíz de GitHub para guardar fotos
+public_folder: "images"  # Cómo lee tu HTML las fotos (relativo a su index.html)
 
 collections:
   - name: "inmuebles"
     label: "Catálogo de Inmuebles"
-    # Apuntamos a la subcarpeta exacta donde está tu archivo JSON
-    folder: "main" 
-    extension: "json"
-    format: "json"
-    create: true
-    slug: "{{fields.id}}"
-    # IMPORTANTE: Cambia "inmuebles.json" por el nombre exacto de tu archivo
     files:
       - label: "Lista de Inmuebles"
         name: "lista_inmuebles"
-        file: "main/inmuebles.json" 
+        file: "inmuebles.json"
         fields:
-          - label: "Inmuebles"
-            name: "inmuebles"
+          - { label: "WhatsApp", name: "whatsapp", widget: "string", default: "5492996100676" }
+          - { label: "Mensaje WhatsApp", name: "mensajeWhatsapp", widget: "string", default: "Hola! Estoy interesado en esta propiedad: " }
+          - label: "Propiedades"
+            name: "propiedades"
             widget: "list"
             fields:
-              - { label: "ID Único", name: "id", widget: "string" }
-              - { label: "Nombre", name: "title", widget: "string" }
-              - { label: "Precio", name: "price", widget: "number", value_type: "float" }
-              - { label: "Descripción", name: "description", widget: "text" }
-              - { label: "Foto", name: "image", widget: "image" }
+              - { label: "Tipo", name: "tipo", widget: "select", options: ["Casa", "Terreno", "Local", "Departamento"], default: "Casa" }
+              - { label: "Localidad", name: "localidad", widget: "string", default: "Villa Regina, Río Negro" }
+              - { label: "Dirección", name: "direccion", widget: "string" }
+              - { label: "Categoría", name: "categoria", widget: "select", options: ["Venta", "Alquiler", "Alquiler Comercial"], default: "Venta" }
+              - { label: "Tamaño (m²)", name: "tamanio", widget: "number", value_type: "int", default: 100 }
+              - { label: "Precio", name: "precio", widget: "string" }
+              - { label: "Foto", name: "foto", widget: "string", default: "imagenes/propiedad-2.jpg" }
+              - { label: "Detalles", name: "detalles", widget: "text" }
+              - { label: "Capacidad", name: "capacidad", widget: "string", default: "N/A" }
+              - { label: "Orden", name: "orden", widget: "number", value_type: "int", required: false }
+              - { label: "Visible", name: "visible", widget: "select", options: ["", "SI"], default: "" }
+              - { label: "Destacado", name: "destacado", widget: "select", options: ["", "SI"], default: "" }
+              - { label: "Stock", name: "stock", widget: "select", options: ["", "SI", "NO"], default: "" }
+
+  - name: "avisos"
+    label: "Avisos"
+    files:
+      - label: "Lista de Avisos"
+        name: "lista_avisos"
+        file: "avisos.json"
+        fields:
+          - label: "Avisos"
+            name: "avisos"
+            widget: "list"
+            fields:
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Fecha (dd/mm/yyyy)", name: "fecha", widget: "string" }
+              - { label: "Autor", name: "autor", widget: "string" }
+              - { label: "Texto", name: "texto", widget: "text" }
+              - { label: "Adjunto (URL)", name: "adjunto", widget: "string", required: false }
