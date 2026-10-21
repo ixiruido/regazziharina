@@ -129,60 +129,90 @@ document.addEventListener('keydown', function(e) {
 });
 
 // Función para cargar y mostrar avisos desde avisos.json
+
 async function cargarAvisos() {
     const avisosContainer = document.getElementById('avisos-container');
-    
+
+    if (!avisosContainer) return;
+
     try {
-        const response = await fetch('./avisos.json');
+        const response = await fetch('./avisos.json', {
+            cache: 'no-store'
+        });
+
         if (!response.ok) {
             throw new Error('No se pudo cargar el archivo de avisos');
         }
-        
-        const avisos = await response.json();
-        
+
+        const datos = await response.json();
+
+        // Aceptar tanto una lista directa como el formato de Decap CMS
+        const avisos = Array.isArray(datos)
+            ? datos
+            : Array.isArray(datos.avisos)
+                ? datos.avisos
+                : [];
+
         if (avisos.length === 0) {
-            avisosContainer.innerHTML = '<p class="avisos-placeholder">No hay avisos disponibles</p>';
+            avisosContainer.innerHTML =
+                '<p class="avisos-placeholder">No hay avisos disponibles</p>';
             return;
         }
-        
-        // Ordenar avisos por fecha (más recientes primero)
-        const avisosOrdenados = avisos.sort((a, b) => parseFechaArgentina(b.fecha) - parseFechaArgentina(a.fecha));
-        
-        // Generar HTML para cada aviso
+
+        // Ordenar por fecha: los más recientes primero
+        const avisosOrdenados = [...avisos].sort(
+            (a, b) =>
+                parseFechaArgentina(b.fecha) -
+                parseFechaArgentina(a.fecha)
+        );
+
+        // Generar el contenido de cada anuncio
         const avisosHTML = avisosOrdenados.map(aviso => {
             const fecha = parseFechaArgentina(aviso.fecha);
+
             const fechaFormateada = fecha.toLocaleDateString('es-AR', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
-            
-            const adjuntoHTML = aviso.adjunto ? 
-                `<a href="${aviso.adjunto}" target="_blank" rel="noopener noreferrer" class="btn-adjunto">📎 Ver adjunto</a>` : '';
-            
+
+            const adjuntoHTML = aviso.adjunto
+                ? `<a href="${aviso.adjunto}" target="_blank"
+                     rel="noopener noreferrer" class="btn-adjunto">
+                     📎 Ver adjunto
+                   </a>`
+                : '';
+
             return `
                 <div class="aviso-card reveal">
                     <div class="aviso-header">
-                        <h3 class="aviso-titulo">${aviso.titulo}</h3>
+                        <h3 class="aviso-titulo">${aviso.titulo || ''}</h3>
                     </div>
                     <div class="aviso-fecha">${fechaFormateada}</div>
-                    <div class="aviso-autor">Por: ${aviso.autor}</div>
-                    <p class="aviso-texto">${aviso.texto}</p>
+                    <div class="aviso-autor">Por: ${aviso.autor || ''}</div>
+                    <p class="aviso-texto">${aviso.texto || ''}</p>
                     ${adjuntoHTML}
                 </div>
             `;
         }).join('');
-        
+
         avisosContainer.innerHTML = avisosHTML;
-        
-        // Re-inicializar el observador para los nuevos elementos
-        const nuevosReveal = document.querySelectorAll('.aviso-card.reveal');
-        nuevosReveal.forEach(el => observador.observe(el));
-        
+
+        // Animar los anuncios recién agregados
+        const nuevosReveal = avisosContainer.querySelectorAll('.aviso-card.reveal');
+
+        if (typeof observador !== 'undefined' && observador) {
+            nuevosReveal.forEach(el => observador.observe(el));
+        } else {
+            nuevosReveal.forEach(el => el.classList.add('active'));
+        }
+
     } catch (error) {
         console.error('Error al cargar avisos:', error);
-        avisosContainer.innerHTML = '<p class="avisos-placeholder">Error al cargar los avisos. Por favor, inténtelo más tarde.</p>';
+
+        avisosContainer.innerHTML =
+            '<p class="avisos-placeholder">' +
+            'Error al cargar los avisos. Por favor, inténtelo más tarde.' +
+            '</p>';
     }
 }
-
-
