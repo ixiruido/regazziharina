@@ -57,7 +57,7 @@ collections:
                 widget: "file"
                 required: false
 
-  - name: "configuracion_web"
+  - name: "configuracion_inm"
     label: "Panel de Inmuebles"
     delete: false
     files:
