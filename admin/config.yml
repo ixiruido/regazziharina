@@ -49,7 +49,7 @@ collections:
 
               - name: "texto"
                 label: "Cuerpo del Mensaje"
-                widget: "markdown"
+                widget: "string"
                 required: true
 
               - name: "adjunto"
