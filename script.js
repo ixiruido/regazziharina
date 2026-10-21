@@ -208,11 +208,12 @@ async function cargarAvisos() {
         }
 
     } catch (error) {
-        console.error('Error al cargar avisos:', error);
+    console.error('Error al cargar avisos:', error);
 
-        avisosContainer.innerHTML =
-            '<p class="avisos-placeholder">' +
-            'Error al cargar los avisos. Por favor, inténtelo más tarde.' +
-            '</p>';
-    }
+    avisosContainer.innerHTML =
+        '<p class="avisos-placeholder">' +
+        'Error al cargar los avisos: ' +
+        error.message +
+        '</p>';
+}
 }
