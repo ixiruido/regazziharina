@@ -19,7 +19,7 @@ collections:
       - name: "avisos_json"
         label: "Lista de Avisos"
         # REEMPLAZA con la ruta exacta donde lee tu web el JSON (ej. "data/avisos.json" o "avisos.json")
-        file: "../avisos.json" 
+        file: "avisos.json" 
         format: "json" # Fuerza a Decap CMS a escribir en JSON puro
         
         fields:
