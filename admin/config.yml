@@ -82,7 +82,7 @@ collections:
             label: "Propiedades"
             widget: "list"
             required: false
-            summary: "ID {{fields.id}} — {{fields.tipo}} — {{fields.direccion}}"
+            summary: "ID {{fields.localidad}} — {{fields.tipo}} — {{fields.direccion}} — {{fields.precio}}"
             fields:
               - name: "id"
                 label: "ID permanente"
