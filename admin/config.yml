@@ -56,3 +56,19 @@ collections:
                 label: "Documento Adjunto (PDF o Imagen)"
                 widget: "file"
                 required: false
+
+  - name: "configuracion_web"
+    label: "Panel de Inmuebles"
+    delete: false
+    files:
+      - name: "catalogo_json"
+        label: "Editar Inmuebles"
+        file: "/inmuebles/catalogo.json"
+        format: "json"    
+
+        fields:
+          - name: "inmuebles"
+            label: "Inmuebles Publicados"
+            widget: "list"
+            required: false
+            summary: "{{fields.titulo}} ({{fields.fecha}})"
