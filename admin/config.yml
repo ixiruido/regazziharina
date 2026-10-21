@@ -1,9 +1,8 @@
-# Configuración del backend (Integración con GitHub)
 backend:
   name: github
-  repo: ixiruido/regazziharina # REEMPLAZA CON TUS DATOS
-  branch: main # O la rama que uses para GitHub Pages (ej. gh-pages)
-  base_url: https://regazziharina-decap-github-auth.ixi-b.workers.dev/
+  repo: ixiruido/regazziharina
+  branch: main
+  base_url: https://regazziharina-decap-github-auth.ixi-b.workers.dev
   auth_endpoint: auth
 
 # Ruta pública donde se subirán los archivos adjuntos (PDFs, imágenes, etc.)
