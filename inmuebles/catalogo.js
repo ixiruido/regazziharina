@@ -1752,8 +1752,6 @@ function abrirModalProducto(producto) {
     if (modalContent) {
         modalContent.scrollTop = 0;
     }
-    // También reiniciar scroll del body
-    window.scrollTo(0, 0);
 
     // Actualizar URL con el ID de la propiedad
     if (producto.id) {
