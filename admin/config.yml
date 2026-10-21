@@ -1,4 +1,4 @@
-
+locale: "es"
 # Configuración del backend de GitHub
 backend:
   name: github
