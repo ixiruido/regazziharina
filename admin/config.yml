@@ -1,3 +1,5 @@
+
+# Configuración del backend de GitHub
 backend:
   name: github
   repo: ixiruido/regazziharina
@@ -5,31 +7,52 @@ backend:
   base_url: https://regazziharina-decap-github-auth.ixi-b.workers.dev
   auth_endpoint: auth
 
-# Ruta pública donde se subirán los archivos adjuntos (PDFs, imágenes, etc.)
+# Configuración de archivos adjuntos
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
-# Configuración de las colecciones de datos
+# Configuración de las colecciones
 collections:
   - name: "configuracion_web"
     label: "Panel de Avisos"
-    delete: false # Evita que borren el archivo por error
+    delete: false
+
     files:
       - name: "avisos_json"
         label: "Lista de Avisos"
-        # REEMPLAZA con la ruta exacta donde lee tu web el JSON (ej. "data/avisos.json" o "avisos.json")
-        file: "avisos.json" 
-        format: "json" # Fuerza a Decap CMS a escribir en JSON puro
-        
+        file: "avisos.json"
+        format: "json"
+
         fields:
           - name: "avisos"
             label: "Anuncios Publicados"
-            widget: "list" # Permite agregar, mover y eliminar anuncios secuencialmente
-            summary: "{{fields.titulo}} ({{fields.fecha}})" # Vista previa rápida en el panel
-            
+            widget: "list"
+            required: false
+            summary: "{{fields.titulo}} ({{fields.fecha}})"
+
             fields:
-              - { label: "Título del Aviso", name: "titulo", widget: "string", required: true }
-              - { label: "Fecha de Publicación", name: "fecha", widget: "string", required: true, hint: "Ejemplo: 29/08/2026" }
-              - { label: "Autor / Cargo", name: "autor", widget: "string", required: true }
-              - { label: "Cuerpo del Mensaje", name: "texto", widget: "markdown", required: true }
-              - { label: "Documento Adjunto (PDF o Imagen)", name: "adjunto", widget: "file", required: false }
+              - name: "titulo"
+                label: "Título del Aviso"
+                widget: "string"
+                required: true
+
+              - name: "fecha"
+                label: "Fecha de Publicación"
+                widget: "string"
+                required: true
+                hint: "Ejemplo: 29/08/2026"
+
+              - name: "autor"
+                label: "Autor / Cargo"
+                widget: "string"
+                required: true
+
+              - name: "texto"
+                label: "Cuerpo del Mensaje"
+                widget: "markdown"
+                required: true
+
+              - name: "adjunto"
+                label: "Documento Adjunto (PDF o Imagen)"
+                widget: "file"
+                required: false
