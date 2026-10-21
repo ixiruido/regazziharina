@@ -1,24 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel de Administración | Catálogo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
 
-  <!-- CON ESTA LÍNEA LE DECIMOS LA RUTA EXACTA AL CMS -->
-  <link href="./config.yml" type="text/yaml" rel="cms-config-url" />
+  <!-- Google Fonts para una tipografía más profesional -->
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS oficial de Static CMS -->
-  <link rel="stylesheet" href="https://unpkg.com/@staticcms/core@^4.0.0/dist/main.css" />
+  <style>
+    /* Estilos globales y reseteo */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc; /* Fondo gris slate claro muy moderno */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Pantalla de carga (Loader) personalizada */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, vertical-align 0.5s ease;
+    }
+
+    /* Contenedor del Logo */
+    .loader-logo {
+      max-width: 150px; /* Ajusta el tamaño de tu logo */
+      height: auto;
+      margin-bottom: 24px;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    /* Animación sutil para el logo */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+
+    /* Anillo de carga (Spinner) */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6; /* Azul moderno de carga */
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Texto de carga */
+    .loading-text {
+      margin-top: 16px;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    /* Estilos inyectados para el login y componentes internos de Decap */
+    /* Nota: Esto estiliza los botones que genera Decap dinámicamente */
+    .nc-app-layout-window {
+      font-family: 'Inter', sans-serif !important;
+    }
+  </style>
 </head>
 <body>
-  <!-- Contenedor principal de la app -->
-  <div id="cms-root"></div>
 
-  <!-- JS oficial de Static CMS -->
-  <script src="https://unpkg.com/@staticcms/core@^4.0.0/dist/static-cms-core.js"></script>
+  <!-- Esta pantalla se muestra de inmediato mientras Decap-CMS se descarga e inicializa -->
+  <div id="loading-screen">
+    <!-- REEMPLAZA ESTA RUTA POR TU LOGO REAL (ej. /images/logo.png o svg) -->
+    <img class="loader-logo" src="../images/foto.png" alt="Cargando Panel...">
+    <div class="spinner"></div>
+    <p class="loading-text">Iniciando sesión de administración...</p>
+  </div>
+
+  <!-- Script Principal de Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@3.8.3/dist/decap-cms.js"></script>
+
+  <!-- Lógica para ocultar el loader una vez que Decap CMS se renderiza -->
   <script>
-    window.CMS.init();
+    // Decap CMS se monta en el body, por lo que usaremos un observador para detectar cuándo está listo
+    const observer = new MutationObserver((mutations, obs) => {
+      // Cuando Decap CMS inyecta su contenedor de React (suele tener clases que empiezan con nc-)
+      if (document.body.children.length > 1) {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500); // Lo removemos del DOM tras la transición
+        }
+        obs.disconnect(); // Dejamos de observar para liberar memoria
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
   </script>
 </body>
 </html>

@@ -1,56 +1,34 @@
+# Configuración del backend (Integración con GitHub)
 backend:
   name: github
-  repo: <ixiruido>/<regazziharina>  # Reemplazar con tu usuario y repositorio de GitHub
-  branch: main
-  site_domain: ixiahora.com.ar  # Dominio de tu sitio (ej: regazziharina.com)
-  base_url: https://<TU-WORKER-AUTH>.workers.dev  # Worker de Cloudflare para autenticación OAuth
-  auth_endpoint: auth
+  repo: ixiruido/regazziharina # REEMPLAZA CON TUS DATOS
+  branch: main # O la rama que uses para GitHub Pages (ej. gh-pages)
 
-# Rutas de Archivos en tu repositorio de GitHub
-media_folder: "images"  # Ruta desde la raíz de GitHub para guardar fotos
-public_folder: "images"  # Cómo lee tu HTML las fotos (relativo a su index.html)
+# Ruta pública donde se subirán los archivos adjuntos (PDFs, imágenes, etc.)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
+# Configuración de las colecciones de datos
 collections:
-  - name: "inmuebles"
-    label: "Catálogo de Inmuebles"
+  - name: "configuracion_web"
+    label: "Panel de Avisos"
+    delete: false # Evita que borren el archivo por error
     files:
-      - label: "Lista de Inmuebles"
-        name: "lista_inmuebles"
-        file: "inmuebles.json"
+      - name: "avisos_json"
+        label: "Lista de Avisos"
+        # REEMPLAZA con la ruta exacta donde lee tu web el JSON (ej. "data/avisos.json" o "avisos.json")
+        file: "../avisos.json" 
+        format: "json" # Fuerza a Decap CMS a escribir en JSON puro
+        
         fields:
-          - { label: "WhatsApp", name: "whatsapp", widget: "string", default: "5492996100676" }
-          - { label: "Mensaje WhatsApp", name: "mensajeWhatsapp", widget: "string", default: "Hola! Estoy interesado en esta propiedad: " }
-          - label: "Propiedades"
-            name: "propiedades"
-            widget: "list"
+          - name: "avisos"
+            label: "Anuncios Publicados"
+            widget: "list" # Permite agregar, mover y eliminar anuncios secuencialmente
+            summary: "{{fields.titulo}} ({{fields.fecha}})" # Vista previa rápida en el panel
+            
             fields:
-              - { label: "Tipo", name: "tipo", widget: "select", options: ["Casa", "Terreno", "Local", "Departamento"], default: "Casa" }
-              - { label: "Localidad", name: "localidad", widget: "string", default: "Villa Regina, Río Negro" }
-              - { label: "Dirección", name: "direccion", widget: "string" }
-              - { label: "Categoría", name: "categoria", widget: "select", options: ["Venta", "Alquiler", "Alquiler Comercial"], default: "Venta" }
-              - { label: "Tamaño (m²)", name: "tamanio", widget: "number", value_type: "int", default: 100 }
-              - { label: "Precio", name: "precio", widget: "string" }
-              - { label: "Foto", name: "foto", widget: "string", default: "imagenes/propiedad-2.jpg" }
-              - { label: "Detalles", name: "detalles", widget: "text" }
-              - { label: "Capacidad", name: "capacidad", widget: "string", default: "N/A" }
-              - { label: "Orden", name: "orden", widget: "number", value_type: "int", required: false }
-              - { label: "Visible", name: "visible", widget: "select", options: ["", "SI"], default: "" }
-              - { label: "Destacado", name: "destacado", widget: "select", options: ["", "SI"], default: "" }
-              - { label: "Stock", name: "stock", widget: "select", options: ["", "SI", "NO"], default: "" }
-
-  - name: "avisos"
-    label: "Avisos"
-    files:
-      - label: "Lista de Avisos"
-        name: "lista_avisos"
-        file: "avisos.json"
-        fields:
-          - label: "Avisos"
-            name: "avisos"
-            widget: "list"
-            fields:
-              - { label: "Título", name: "titulo", widget: "string" }
-              - { label: "Fecha (dd/mm/yyyy)", name: "fecha", widget: "string" }
-              - { label: "Autor", name: "autor", widget: "string" }
-              - { label: "Texto", name: "texto", widget: "text" }
-              - { label: "Adjunto (URL)", name: "adjunto", widget: "string", required: false }
+              - { label: "Título del Aviso", name: "titulo", widget: "string", required: true }
+              - { label: "Fecha de Publicación", name: "fecha", widget: "string", required: true, hint: "Ejemplo: 29/08/2026" }
+              - { label: "Autor / Cargo", name: "autor", widget: "string", required: true }
+              - { label: "Cuerpo del Mensaje", name: "texto", widget: "markdown", required: true }
+              - { label: "Documento Adjunto (PDF o Imagen)", name: "adjunto", widget: "file", required: false }
