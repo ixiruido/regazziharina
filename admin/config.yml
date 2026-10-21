@@ -57,18 +57,135 @@ collections:
                 widget: "file"
                 required: false
 
-  - name: "configuracion_inm"
-    label: "Panel de Inmuebles"
+ 
+  - name: "catalogo_inmobiliario"
+    label: "Catálogo Inmobiliario"
     delete: false
     files:
       - name: "catalogo_json"
-        label: "Editar Inmuebles"
-        file: "/inmuebles/catalogo.json"
-        format: "json"    
-
+        label: "Configuración y Propiedades"
+        file: "inmuebles/catalogo.json"
+        format: "json"
         fields:
-          - name: "inmuebles"
-            label: "Inmuebles Publicados"
+          - name: "whatsapp"
+            label: "Número de WhatsApp"
+            widget: "string"
+            required: true
+            hint: "Formato internacional sin + ni espacios. Ej.: 5492985096108"
+
+          - name: "mensajeWhatsapp"
+            label: "Mensaje inicial de WhatsApp"
+            widget: "string"
+            required: true
+
+          - name: "propiedades"
+            label: "Propiedades"
             widget: "list"
             required: false
-            summary: "{{fields.titulo}} ({{fields.fecha}})"
+            summary: "ID {{fields.id}} — {{fields.tipo}} — {{fields.direccion}}"
+            fields:
+              - name: "id"
+                label: "ID permanente"
+                widget: "number"
+                value_type: "int"
+                required: true
+                hint: "No modificar el ID de una propiedad existente. Para una nueva, usar un número que nunca se haya utilizado."
+
+              - name: "tipo"
+                label: "Tipo de propiedad"
+                widget: "select"
+                options:
+                  - { label: "Casa", value: "Casa" }
+                  - { label: "Departamento", value: "Departamento" }
+                  - { label: "Terreno", value: "Terreno" }
+                  - { label: "Local", value: "Local" }
+                  - { label: "Oficina", value: "Oficina" }
+                  - { label: "Otro", value: "Otro" }
+                required: true
+
+              - name: "localidad"
+                label: "Localidad"
+                widget: "string"
+                required: true
+
+              - name: "direccion"
+                label: "Dirección"
+                widget: "string"
+                required: true
+
+              - name: "categoria"
+                label: "Operación"
+                widget: "select"
+                options:
+                  - { label: "Venta", value: "Venta" }
+                  - { label: "Alquiler", value: "Alquiler" }
+                  - { label: "Alquiler Comercial", value: "Alquiler Comercial" }
+                required: true
+
+              - name: "tamanio"
+                label: "Superficie en m²"
+                widget: "number"
+                value_type: "int"
+                required: true
+
+              - name: "precio"
+                label: "Precio"
+                widget: "string"
+                required: true
+                hint: "Ej.: USD 95.000 o ARS 450.000"
+
+              - name: "fotos"
+                label: "Fotos de la propiedad (máximo 5)"
+                widget: "list"
+                required: false
+                max: 5
+                field:
+                  label: "Archivo de imagen"
+                  name: "foto"
+                  widget: "file"
+                  media_folder: "inmuebles/imagenes"
+                  public_folder: "imagenes"
+
+              - name: "detalles"
+                label: "Descripción"
+                widget: "text"
+                required: true
+
+              - name: "capacidad"
+                label: "Capacidad / Habitaciones / Personas"
+                widget: "string"
+                required: false
+
+              - name: "orden"
+                label: "Orden de aparición"
+                widget: "number"
+                value_type: "int"
+                required: false
+                hint: "Número menor aparece primero. Dejar vacío para enviar al final."
+
+              - name: "visible"
+                label: "Publicación visible en la web"
+                widget: "select"
+                default: "SI"
+                options:
+                  - { label: "Sí, visible", value: "SI" }
+                  - { label: "No, ocultar", value: "NO" }
+                required: true
+
+              - name: "destacado"
+                label: "Destacar propiedad"
+                widget: "select"
+                default: "NO"
+                options:
+                  - { label: "Sí, destacada", value: "SI" }
+                  - { label: "No destacada", value: "NO" }
+                required: true
+
+              - name: "stock"
+                label: "Disponibilidad"
+                widget: "select"
+                default: "SI"
+                options:
+                  - { label: "Disponible", value: "SI" }
+                  - { label: "No disponible", value: "NO" }
+                required: true
