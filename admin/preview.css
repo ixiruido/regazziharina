@@ -1,0 +1,23 @@
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  color: #1e293b;
+  background: #ffffff;
+  line-height: 1.6;
+  padding: 24px;
+}
+
+h1, h2, h3 {
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+a {
+  color: #2563eb;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
