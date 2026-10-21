@@ -81,16 +81,15 @@ collections:
           - name: "propiedades"
             label: "Propiedades"
             widget: "list"
-            required: false
-            summary: "ID {{fields.localidad}} — {{fields.tipo}} — {{fields.direccion}} — {{fields.precio}}"
+            collapsed: true
+            summary: "{{fields.localidad}} — {{fields.tipo}} — {{fields.direccion}} — {{fields.precio}} — ID {{fields.id}}"
             fields:
               - name: "id"
-                label: "ID permanente"
+                label: "ID de propiedad (automático)"
                 widget: "number"
                 value_type: "int"
-                required: true
-                hint: "No modificar el ID de una propiedad existente. Para una nueva, usar un número que nunca se haya utilizado."
-
+                disabled: true
+                
               - name: "tipo"
                 label: "Tipo de propiedad"
                 widget: "select"
