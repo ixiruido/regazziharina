@@ -19,13 +19,13 @@ collections:
 
     files:
       - name: "avisos_json"
-        label: "Lista de Avisos"
+        label: "Editar Avisos"
         file: "avisos.json"
         format: "json"
 
         fields:
           - name: "avisos"
-            label: "Anuncios Publicados"
+            label: "Avisos Publicados"
             widget: "list"
             required: false
             summary: "{{fields.titulo}} ({{fields.fecha}})"
@@ -48,7 +48,7 @@ collections:
                 required: true
 
               - name: "texto"
-                label: "Cuerpo del Mensaje"
+                label: "Texto del Aviso"
                 widget: "string"
                 required: true
 
