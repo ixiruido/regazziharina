@@ -89,9 +89,63 @@
     <p class="loading-text">Iniciando sesión de administración...</p>
   </div>
 
+
+
+  
   <!-- Script Principal de Decap CMS -->
   <script src="https://unpkg.com/decap-cms@3.8.3/dist/decap-cms.js"></script>
+<script>
+  CMS.registerPreviewStyle("/admin/preview.css");
+</script>
 
+<script>
+  CMS.registerEventListener({
+    name: "preSave",
+    handler: ({ entry }) => {
+      const data = entry.get("data");
+      const propiedades = data.get("propiedades");
+
+      // Este generador solo actúa sobre el catálogo inmobiliario.
+      if (!propiedades || typeof propiedades.map !== "function") {
+        return;
+      }
+
+      // Busca el ID numérico más alto que ya existe.
+      let maxId = 0;
+
+      propiedades.forEach((propiedad) => {
+        const id = Number(propiedad.get("id"));
+
+        if (Number.isInteger(id) && id > maxId) {
+          maxId = id;
+        }
+      });
+
+      // Asigna IDs únicamente a las propiedades que todavía no tienen.
+      let siguienteId = maxId + 1;
+
+      const propiedadesActualizadas = propiedades.map((propiedad) => {
+        const idActual = propiedad.get("id");
+
+        if (
+          idActual === undefined ||
+          idActual === null ||
+          String(idActual).trim() === ""
+        ) {
+          propiedad = propiedad.set("id", siguienteId);
+          siguienteId++;
+        }
+
+        return propiedad;
+      });
+
+      return data.set("propiedades", propiedadesActualizadas);
+    }
+  });
+</script>
+
+
+  
   <!-- Lógica para ocultar el loader una vez que Decap CMS se renderiza -->
   <script>
     // Decap CMS se monta en el body, por lo que usaremos un observador para detectar cuándo está listo
@@ -110,9 +164,7 @@
     observer.observe(document.body, { childList: true });
   </script>
 
-<script>
-  CMS.registerPreviewStyle("/admin/preview.css");
-</script>
+
   
 </body>
 </html>
