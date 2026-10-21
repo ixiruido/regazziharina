@@ -1606,6 +1606,7 @@ const modalNombre = document.getElementById('modal-nombre');
 const modalDescripcion = document.getElementById('modal-descripcion');
 const modalPrecio = document.getElementById('modal-precio');
 const modalStock = document.getElementById('modal-stock');
+const modalMapa = document.getElementById('modal-mapa');
 const modalWhatsapp = document.getElementById('modal-whatsapp');
 
 let productoActualModal = null;
@@ -1669,6 +1670,26 @@ function abrirModalProducto(producto) {
     const stock = tieneStock(producto);
     modalStock.textContent = stock ? 'En stock' : 'Sin stock';
     modalStock.className = stock ? 'modal-stock' : 'modal-stock sin-stock';
+
+    // Agregar mapa de Google Maps
+    if (producto.direccion && producto.localidad) {
+        const direccionCompleta = encodeURIComponent(`${producto.direccion}, ${producto.localidad}`);
+        modalMapa.innerHTML = `
+            <iframe
+                width="100%"
+                height="300"
+                style="border:0; border-radius: 8px; margin-top: 15px;"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=${direccionCompleta}&t=&z=13&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+        `;
+        modalMapa.style.display = 'block';
+    } else {
+        modalMapa.innerHTML = '';
+        modalMapa.style.display = 'none';
+    }
 
     // Guardar datos de WhatsApp en el producto actual para el fallback
     productoActualModal = {

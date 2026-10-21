@@ -760,6 +760,16 @@ body {
     color: #17823b;
 }
 
+.modal-mapa {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.modal-mapa iframe {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .modal-whatsapp-btn {
     display: flex;
     justify-content: center;
