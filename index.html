@@ -27,12 +27,12 @@
 <link rel="preload" as="image" href="./images/fondo.jpg">
 <link rel="stylesheet" href="./style.css">
 <link rel="icon" href="./images/favicon.png" type="image/png">
-```
+
 
 </head>
 <body>
 
-```
+
 <header>
     <div class="logo">Regazzi Harina</div>
     <nav>
@@ -241,38 +241,6 @@
     </div>
 </div>
 
-<!-- Modal para mostrar detalles de propiedad -->
-<div class="modal-overlay" id="propiedad-modal">
-    <div class="modal-content propiedad-modal-content">
-        <div class="modal-header">
-            <h3 id="propiedad-modal-title"></h3>
-            <button class="modal-close" onclick="cerrarModalPropiedad()">&times;</button>
-        </div>
-        <div id="propiedad-modal-body">
-            <div class="propiedad-modal-grid">
-                <div class="propiedad-modal-info">
-                    <img id="propiedad-modal-imagen" src="" alt="" class="propiedad-modal-img">
-                    <div class="propiedad-modal-details">
-                        <span id="propiedad-modal-categoria" class="propiedad-modal-categoria"></span>
-                        <p id="propiedad-modal-ubicacion" class="propiedad-modal-ubicacion"></p>
-                        <p id="propiedad-modal-direccion" class="propiedad-modal-direccion"></p>
-                        <p id="propiedad-modal-detalles" class="propiedad-modal-detalles"></p>
-                        <div class="propiedad-modal-info-grid">
-                            <span id="propiedad-modal-tamanio"></span>
-                            <span id="propiedad-modal-capacidad"></span>
-                        </div>
-                        <p id="propiedad-modal-precio" class="propiedad-modal-precio"></p>
-                        <a id="propiedad-modal-contacto" href="#" class="btn-gold" target="_blank" rel="noopener noreferrer">Contactar</a>
-                    </div>
-                </div>
-                <div class="propiedad-modal-map">
-                    <iframe id="propiedad-modal-mapa" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <section class="online-consultation" id="consultas-online">
     <h2>Consultas Jurídicas Online</h2>
     <p class="consultation-subtitle reveal">¿No puede venir a la oficina, vive en otra ciudad o fuera del país? Hacemos la consulta por videollamada o WhatsApp, con turno previo y en horario argentino. Nos manda la documentación antes y la revisamos, para que la reunión rinda.</p>
@@ -295,10 +263,7 @@
     <h2>Catálogo Inmobiliario</h2>
     <p class="contact-subtitle reveal">Gestión inmobiliaria - Propiedades disponibles</p>
     <div class="catalogo-intro reveal">
-        <button class="btn-gold" onclick="mostrarCatalogo()">Explorar Catálogo</button>
-    </div>
-    <div class="catalogo-container reveal" id="catalogo-container" style="display: none;">
-        <p class="catalogo-placeholder">Cargando propiedades...</p>
+        <a href="./inmuebles/index.html" class="btn-gold" target="_blank" rel="noopener noreferrer">Explorar Catálogo</a>
     </div>
 </section>
 

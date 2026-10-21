@@ -121,7 +121,11 @@ section { padding: 3rem 8%; }
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
     border: 2px solid var(--gold-primary);
     cursor: pointer; z-index: 10;
-    animation: glowPulse 2s ease-in-out infinite;}
+    display: inline-block; text-align: center;}
+
+.hero .btn-gold {
+    animation: glowPulse 2s ease-in-out infinite;
+}
 .btn-gold:hover {transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
     background-color: var(--gold-hover);}

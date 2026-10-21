@@ -58,10 +58,7 @@ let observador;
                     link.classList.add('active');}});
 
             // Cargar avisos desde JSON
-            cargarAvisos();
-
-            // Cargar catálogo de propiedades
-            cargarCatalogo();});
+            cargarAvisos();});
 
 // Función auxiliar para parsear fechas en formato dd/mm/yyyy (argentino)
 function parseFechaArgentina(fechaStr) {
@@ -88,6 +85,7 @@ function toggleCard(button) {
     const modal = document.getElementById('service-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
+    const modalContent = modal.querySelector('.modal-content');
 
     modalTitle.textContent = title;
     modalBody.innerHTML = fullContent;
@@ -95,6 +93,16 @@ function toggleCard(button) {
 
     // Prevenir scroll del body
     document.body.style.overflow = 'hidden';
+
+    // Resetear scroll del modal al inicio (después de mostrar el modal)
+    requestAnimationFrame(() => {
+        if (modalContent) {
+            modalContent.scrollTop = 0;
+        }
+        if (modalBody) {
+            modalBody.scrollTop = 0;
+        }
+    });
 }
 
 // Función para cerrar modal
@@ -117,14 +125,6 @@ document.getElementById('service-modal').addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeModal();
-        cerrarModalPropiedad();
-    }
-});
-
-// Cerrar modal de propiedad al hacer clic fuera del contenido
-document.getElementById('propiedad-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        cerrarModalPropiedad();
     }
 });
 
@@ -185,112 +185,4 @@ async function cargarAvisos() {
     }
 }
 
-// Función para mostrar el catálogo
-function mostrarCatalogo() {
-    const container = document.getElementById('catalogo-container');
-    const intro = document.querySelector('.catalogo-intro');
-    
-    intro.style.display = 'none';
-    container.style.display = 'grid';
-    
-    // Si no se ha cargado, cargar ahora
-    if (container.querySelector('.catalogo-placeholder') || container.children.length === 0) {
-        cargarCatalogo();
-    }
-}
-
-// Función para cargar y mostrar propiedades desde inmuebles.json
-async function cargarCatalogo() {
-    const catalogoContainer = document.getElementById('catalogo-container');
-    
-    try {
-        const response = await fetch('./inmuebles.json');
-        if (!response.ok) {
-            throw new Error('No se pudo cargar el archivo de inmuebles');
-        }
-        
-        const data = await response.json();
-        const propiedades = data.propiedades || [];
-        
-        if (propiedades.length === 0) {
-            catalogoContainer.innerHTML = '<p class="catalogo-placeholder">No hay propiedades disponibles</p>';
-            return;
-        }
-        
-        // Generar HTML para cada propiedad
-        const propiedadesHTML = propiedades.map((propiedad, index) => {
-            return `
-                <div class="propiedad-card reveal" onclick="mostrarDetallePropiedad(${index})" style="cursor: pointer;">
-                    <img src="${propiedad.foto}" alt="${propiedad.tipo} en ${propiedad.localidad}" class="propiedad-imagen">
-                    <div class="propiedad-content">
-                        <h3 class="propiedad-tipo">${propiedad.tipo}</h3>
-                        <span class="propiedad-categoria">${propiedad.categoria}</span>
-                        <p class="propiedad-ubicacion">${propiedad.localidad}</p>
-                        <p class="propiedad-direccion">${propiedad.direccion}</p>
-                        <p class="propiedad-detalles">${propiedad.detalles}</p>
-                        <div class="propiedad-info">
-                            <span class="propiedad-info-item"><strong>Tamaño:</strong> ${propiedad.tamanio} m²</span>
-                            ${propiedad.capacidad && propiedad.capacidad !== 'N/A' ? `<span class="propiedad-info-item"><strong>Capacidad:</strong> ${propiedad.capacidad}</span>` : ''}
-                        </div>
-                        <p class="propiedad-precio">${propiedad.precio}</p>
-                        <p class="propiedad-contacto" style="color: var(--gold-primary); font-size: 0.9rem; margin-top: 1rem;">Click para más detalles</p>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        catalogoContainer.innerHTML = propiedadesHTML;
-        
-        // Guardar datos globalmente para usar en el modal
-        window.catalogoData = data;
-        
-        // Re-inicializar el observador para los nuevos elementos
-        const nuevosReveal = document.querySelectorAll('.propiedad-card.reveal');
-        nuevosReveal.forEach(el => observador.observe(el));
-        
-    } catch (error) {
-        console.error('Error al cargar catálogo:', error);
-        catalogoContainer.innerHTML = '<p class="catalogo-placeholder">Error al cargar las propiedades. Por favor, inténtelo más tarde.</p>';
-    }
-}
-
-// Función para mostrar detalle de propiedad en modal
-function mostrarDetallePropiedad(index) {
-    const propiedad = window.catalogoData.propiedades[index];
-    const modal = document.getElementById('propiedad-modal');
-    
-    // Llenar datos del modal
-    document.getElementById('propiedad-modal-title').textContent = propiedad.tipo;
-    document.getElementById('propiedad-modal-imagen').src = propiedad.foto;
-    document.getElementById('propiedad-modal-imagen').alt = `${propiedad.tipo} en ${propiedad.localidad}`;
-    document.getElementById('propiedad-modal-categoria').textContent = propiedad.categoria;
-    document.getElementById('propiedad-modal-ubicacion').textContent = propiedad.localidad;
-    document.getElementById('propiedad-modal-direccion').textContent = propiedad.direccion;
-    document.getElementById('propiedad-modal-detalles').textContent = propiedad.detalles;
-    document.getElementById('propiedad-modal-tamanio').innerHTML = `<strong>Tamaño:</strong> ${propiedad.tamanio} m²`;
-    document.getElementById('propiedad-modal-capacidad').innerHTML = propiedad.capacidad && propiedad.capacidad !== 'N/A' ? `<strong>Capacidad:</strong> ${propiedad.capacidad}` : '';
-    document.getElementById('propiedad-modal-precio').textContent = propiedad.precio;
-    
-    // Contacto al número del estudio
-    const whatsappMensaje = encodeURIComponent(`Hola! Estoy interesado en la propiedad: ${propiedad.direccion}, ${propiedad.localidad}. ${window.catalogoData.mensajeWhatsapp}`);
-    document.getElementById('propiedad-modal-contacto').href = `https://wa.me/5492985096108?text=${whatsappMensaje}`;
-    
-    // Generar mapa de Google (sin API key usando iframe de búsqueda)
-    const query = encodeURIComponent(`${propiedad.direccion}, ${propiedad.localidad}`);
-    document.getElementById('propiedad-modal-mapa').src = `https://maps.google.com/maps?q=${query}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
-    
-    // Mostrar modal
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-// Función para cerrar modal de propiedad
-function cerrarModalPropiedad() {
-    const modal = document.getElementById('propiedad-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-    
-    // Limpiar iframe del mapa
-    document.getElementById('propiedad-modal-mapa').src = '';
-}
 
