@@ -138,7 +138,18 @@
             </button>
             <div class="modal-body">
                 <div class="modal-imagen">
-                    <img id="modal-img" src="" alt="">
+                    <div class="slider-container">
+                        <button class="slider-arrow slider-prev" aria-label="Imagen anterior">
+                            ‹
+                        </button>
+                        <div class="slider-main">
+                            <img id="modal-img" src="" alt="">
+                        </div>
+                        <button class="slider-arrow slider-next" aria-label="Imagen siguiente">
+                            ›
+                        </button>
+                    </div>
+                    <div class="slider-thumbnails" id="slider-thumbnails"></div>
                 </div>
                 <div class="modal-info">
                     <span id="modal-categoria" class="modal-categoria"></span>
@@ -147,9 +158,14 @@
                     <div id="modal-precio" class="modal-precio"></div>
                     <div id="modal-stock" class="modal-stock"></div>
                     <div id="modal-mapa" class="modal-mapa"></div>
-                    <button id="modal-whatsapp" class="modal-whatsapp-btn">
-                        Consultar
-                    </button>
+                    <div class="modal-botones">
+                        <button id="modal-compartir" class="modal-compartir-btn">
+                            Compartir
+                        </button>
+                        <button id="modal-whatsapp" class="modal-whatsapp-btn">
+                            Consultar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1115,13 +1115,44 @@ function crearProducto(
         "lazy";
 
 
-    if (producto.foto) {
+    // Usar array de fotos si existe, sino usar foto simple
+    const fotos = producto.fotos || [];
+    const fotoPrincipal = fotos.length > 0 ? fotos[0] : producto.foto;
+
+    if (fotoPrincipal) {
 
         imagen.src =
             obtenerUrlImagen(
-                producto.foto
+                fotoPrincipal
             );
 
+    }
+
+    // Efecto hover para cambiar imágenes
+    if (fotos.length > 1) {
+        let hoverIndex = 0;
+        let hoverInterval;
+
+        imagenContenedor.addEventListener('mouseenter', () => {
+            hoverInterval = setInterval(() => {
+                hoverIndex = (hoverIndex + 1) % fotos.length;
+                imagen.style.opacity = '0';
+                setTimeout(() => {
+                    imagen.src = obtenerUrlImagen(fotos[hoverIndex]);
+                    imagen.style.opacity = '1';
+                }, 150);
+            }, 2000);
+        });
+
+        imagenContenedor.addEventListener('mouseleave', () => {
+            clearInterval(hoverInterval);
+            hoverIndex = 0;
+            imagen.style.opacity = '0';
+            setTimeout(() => {
+                imagen.src = obtenerUrlImagen(fotos[0]);
+                imagen.style.opacity = '1';
+            }, 150);
+        });
     }
 
 
@@ -1608,6 +1639,13 @@ const modalPrecio = document.getElementById('modal-precio');
 const modalStock = document.getElementById('modal-stock');
 const modalMapa = document.getElementById('modal-mapa');
 const modalWhatsapp = document.getElementById('modal-whatsapp');
+const modalCompartir = document.getElementById('modal-compartir');
+const sliderPrev = document.querySelector('.slider-prev');
+const sliderNext = document.querySelector('.slider-next');
+const sliderThumbnails = document.getElementById('slider-thumbnails');
+
+let sliderIndex = 0;
+let sliderImages = [];
 
 let productoActualModal = null;
 
@@ -1633,11 +1671,22 @@ function abrirModalProducto(producto) {
 
     // Fallback: mostrar modal dentro del iframe si no hay comunicación
     // Llenar datos del modal
-    if (producto.foto) {
+    const fotos = producto.fotos || [];
+    if (fotos.length > 0) {
+        sliderImages = fotos;
+        sliderIndex = 0;
+        modalImg.src = obtenerUrlImagen(fotos[0]);
+        modalImg.style.display = 'block';
+        crearMiniaturas(fotos);
+    } else if (producto.foto) {
+        sliderImages = [producto.foto];
+        sliderIndex = 0;
         modalImg.src = obtenerUrlImagen(producto.foto);
         modalImg.style.display = 'block';
+        sliderThumbnails.innerHTML = '';
     } else {
         modalImg.style.display = 'none';
+        sliderThumbnails.innerHTML = '';
     }
 
     modalCategoria.textContent = producto.categoria || '';
@@ -1668,7 +1717,7 @@ function abrirModalProducto(producto) {
     modalPrecio.textContent = producto.precio || '';
 
     const stock = tieneStock(producto);
-    modalStock.textContent = stock ? 'En stock' : 'Sin stock';
+    modalStock.textContent = stock ? 'DISPONIBLE' : 'NO DISPONIBLE';
     modalStock.className = stock ? 'modal-stock' : 'modal-stock sin-stock';
 
     // Agregar mapa de Google Maps
@@ -1698,6 +1747,21 @@ function abrirModalProducto(producto) {
         whatsappMensaje: mensajeWhatsapp
     };
 
+    // Reiniciar scroll del modal al inicio
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.scrollTop = 0;
+    }
+    // También reiniciar scroll del body
+    window.scrollTo(0, 0);
+
+    // Actualizar URL con el ID de la propiedad
+    if (producto.id) {
+        const url = new URL(window.location);
+        url.searchParams.set('propiedad', producto.id);
+        window.history.pushState({ propiedadId: producto.id }, '', url);
+    }
+
     // Mostrar modal dentro del iframe
     modal.classList.remove('oculto');
     document.body.style.overflow = 'hidden';
@@ -1707,7 +1771,12 @@ function cerrarModalProducto() {
     modal.classList.add('oculto');
     document.body.style.overflow = ''; // Restaurar scroll en el iframe
     productoActualModal = null;
-    
+
+    // Limpiar el parámetro de URL
+    const url = new URL(window.location);
+    url.searchParams.delete('propiedad');
+    window.history.pushState({}, '', url);
+
     // Restaurar scroll en la página principal
     try {
         if (window.parent && window.parent !== window) {
@@ -1760,6 +1829,93 @@ modalWhatsapp.addEventListener('click', () => {
     }
 });
 
+// Evento para el botón de compartir
+modalCompartir.addEventListener('click', async () => {
+    if (productoActualModal && productoActualModal.id) {
+        const url = new URL(window.location);
+        url.searchParams.set('propiedad', productoActualModal.id);
+        const urlCompleta = url.toString();
+
+        try {
+            await navigator.clipboard.writeText(urlCompleta);
+            alert('¡Enlace copiado al portapapeles!');
+        } catch (err) {
+            // Fallback para navegadores que no soportan clipboard API
+            const textarea = document.createElement('textarea');
+            textarea.value = urlCompleta;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('¡Enlace copiado al portapapeles!');
+            } catch (e) {
+                alert('No se pudo copiar el enlace. Por favor, copia la URL desde la barra de direcciones.');
+            }
+            document.body.removeChild(textarea);
+        }
+    }
+});
+
+// ============================
+// SLIDER DE FOTOS
+// ============================
+
+function crearMiniaturas(fotos) {
+    sliderThumbnails.innerHTML = '';
+    fotos.forEach((foto, index) => {
+        const thumb = document.createElement('img');
+        thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+        thumb.src = obtenerUrlImagen(foto);
+        thumb.alt = `Foto ${index + 1}`;
+        thumb.addEventListener('click', () => {
+            cambiarFoto(index);
+        });
+        sliderThumbnails.appendChild(thumb);
+    });
+}
+
+function cambiarFoto(index) {
+    if (sliderImages.length === 0) return;
+
+    sliderIndex = index;
+    if (sliderIndex < 0) sliderIndex = sliderImages.length - 1;
+    if (sliderIndex >= sliderImages.length) sliderIndex = 0;
+
+    modalImg.style.opacity = '0';
+    setTimeout(() => {
+        modalImg.src = obtenerUrlImagen(sliderImages[sliderIndex]);
+        modalImg.style.opacity = '1';
+    }, 150);
+
+    // Actualizar miniaturas activas
+    const thumbnails = sliderThumbnails.querySelectorAll('.thumbnail');
+    thumbnails.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === sliderIndex);
+    });
+}
+
+// Eventos de flechas del slider
+sliderPrev.addEventListener('click', () => {
+    cambiarFoto(sliderIndex - 1);
+});
+
+sliderNext.addEventListener('click', () => {
+    cambiarFoto(sliderIndex + 1);
+});
+
+// Navegación con teclas
+document.addEventListener('keydown', (event) => {
+    if (!modal.classList.contains('oculto')) {
+        if (event.key === 'ArrowLeft') {
+            cambiarFoto(sliderIndex - 1);
+        } else if (event.key === 'ArrowRight') {
+            cambiarFoto(sliderIndex + 1);
+        }
+    }
+});
+
 // ============================
 // INICIO
 // ============================
@@ -1775,3 +1931,31 @@ window.addEventListener(
 
     }
 );
+
+// ============================
+// VERIFICAR URL PARA ABRIR MODAL
+// ============================
+
+function verificarParametroUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const propiedadId = urlParams.get('propiedad');
+
+    if (propiedadId) {
+        // Esperar a que los productos estén cargados
+        const intervalo = setInterval(() => {
+            if (productos.length > 0) {
+                clearInterval(intervalo);
+                const producto = productos.find(p => p.id == propiedadId);
+                if (producto) {
+                    abrirModalProducto(producto);
+                }
+            }
+        }, 100);
+
+        // Límite de tiempo para evitar intervalo infinito
+        setTimeout(() => clearInterval(intervalo), 5000);
+    }
+}
+
+// Verificar parámetro de URL después de cargar productos
+setTimeout(verificarParametroUrl, 500);

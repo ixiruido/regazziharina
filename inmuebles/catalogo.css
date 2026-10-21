@@ -323,6 +323,7 @@ body {
     height: 100%;
 
     object-fit: cover;
+    transition: opacity 0.3s ease;
 }
 
 
@@ -660,21 +661,114 @@ body {
 .modal-imagen {
     background: #fafafa;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 30px;
     min-height: 300px;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .modal-imagen img {
     max-width: 100%;
     max-height: 400px;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
-.modal-imagen img:hover {
-    transform: scale(1.1);
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 5;
+}
+
+.slider-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-prev {
+    left: 10px;
+}
+
+.slider-next {
+    right: 10px;
+}
+
+.slider-thumbnails {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    overflow-x: auto;
+    padding: 5px;
+    width: 100%;
+    justify-content: center;
+}
+
+.slider-thumbnails::-webkit-scrollbar {
+    height: 6px;
+}
+
+.slider-thumbnails::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+.slider-thumbnails::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.slider-thumbnails::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.thumbnail.active {
+    border-color: #c8102e;
+    box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.3);
 }
 
 .modal-info {
@@ -770,6 +864,33 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.modal-botones {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.modal-compartir-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 20px;
+    border-radius: 8px;
+    background: #4285f4;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: opacity 0.2s;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+}
+
+.modal-compartir-btn:hover {
+    opacity: 0.88;
+}
+
 .modal-whatsapp-btn {
     display: flex;
     justify-content: center;
@@ -784,6 +905,7 @@ body {
     transition: opacity 0.2s;
     border: none;
     cursor: pointer;
+    flex: 1;
 }
 
 .modal-whatsapp-btn:hover {
@@ -838,6 +960,10 @@ body {
 
     .modal-precio {
         font-size: 24px;
+    }
+
+    .modal-botones {
+        flex-direction: column;
     }
 }
 
