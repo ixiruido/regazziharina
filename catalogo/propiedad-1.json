@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "precio": "USD 95.000",
+  "destacado": "NO",
+  "localidad": "Villa Regina, Río Negro",
+  "orden": 3,
+  "fotos": [
+    "imagenes/fondo.jpg",
+    "imagenes/propiedad-2.jpg",
+    "imagenes/propiedad-2.jpg",
+    "imagenes/propiedad-2.jpg",
+    "imagenes/propiedad-2.jpg"
+  ],
+  "direccion": "Rivadavia 220",
+  "visible": "SI",
+  "capacidad": "6 personas",
+  "categoria": "Venta",
+  "tamanio": 150,
+  "tipo": "Casa",
+  "stock": "SI",
+  "detalles": "Cuenta con 3 habitaciones, 2 baños, garage cubierto y un patio amplio con parrilla. Excelente iluminación natural."
+}

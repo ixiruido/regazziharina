@@ -1,0 +1,22 @@
+{
+  "id": 7,
+  "precio": "USD 75.000",
+  "destacado": "NO",
+  "localidad": "Ingeniero Huergo, Río Negro",
+  "orden": "",
+  "fotos": [
+    "imagenes/propiedad-8.jpg",
+    "imagenes/propiedad-8.jpg",
+    "imagenes/propiedad-8.jpg",
+    "imagenes/propiedad-8.jpg",
+    "imagenes/propiedad-8.jpg"
+  ],
+  "direccion": "Avenida San Martín 520",
+  "visible": "SI",
+  "capacidad": "4",
+  "categoria": "Venta",
+  "tamanio": 90,
+  "tipo": "Casa",
+  "stock": "SI",
+  "detalles": "Propiedad de 2 habitaciones y 1 baño. No tiene garage, pero incluye patio chico con parrilla. Propiedad reciclada a nuevo."
+}

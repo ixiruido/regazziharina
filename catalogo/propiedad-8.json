@@ -1,0 +1,22 @@
+{
+  "id": 8,
+  "precio": "ARS 425.000",
+  "destacado": "NO",
+  "localidad": "Villa Regina, Río Negro",
+  "orden": 1,
+  "fotos": [
+    "imagenes/propiedad-9.jpg",
+    "imagenes/propiedad-9.jpg",
+    "imagenes/propiedad-9.jpg",
+    "imagenes/propiedad-9.jpg",
+    "imagenes/propiedad-9.jpg"
+  ],
+  "direccion": "Avenida 9 de Julio 100",
+  "visible": "SI",
+  "capacidad": "5",
+  "categoria": "Alquiler",
+  "tamanio": 180,
+  "tipo": "Casa",
+  "stock": "NO",
+  "detalles": "Casa familiar con 3 habitaciones, 2 baños completos y garage cerrado. Patio mediano con buena sombra y jardín delantero."
+}

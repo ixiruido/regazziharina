@@ -1,0 +1,22 @@
+{
+  "id": 5,
+  "precio": "ARS 280.000",
+  "destacado": "NO",
+  "localidad": "Villa Regina, Río Negro",
+  "orden": 4,
+  "fotos": [
+    "imagenes/propiedad-6.jpg",
+    "imagenes/propiedad-6.jpg",
+    "imagenes/propiedad-6.jpg",
+    "imagenes/propiedad-6.jpg",
+    "imagenes/propiedad-6.jpg"
+  ],
+  "direccion": "Avenida Mitre 450",
+  "visible": "SI",
+  "capacidad": "15",
+  "categoria": "Alquiler Comercial",
+  "tamanio": 65,
+  "tipo": "Local",
+  "stock": "SI",
+  "detalles": "Local céntrico con 1 baño y oficina interna privada. Equipado con persiana metálica motorizada y luminaria led instalada."
+}

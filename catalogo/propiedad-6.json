@@ -1,0 +1,22 @@
+{
+  "id": 6,
+  "precio": "ARS 1.200.000",
+  "destacado": "NO",
+  "localidad": "General Roca, Río Negro",
+  "orden": "",
+  "fotos": [
+    "imagenes/propiedad-7.jpg",
+    "imagenes/propiedad-7.jpg",
+    "imagenes/propiedad-7.jpg",
+    "imagenes/propiedad-7.jpg",
+    "imagenes/propiedad-7.jpg"
+  ],
+  "direccion": "Mitre 710",
+  "visible": "SI",
+  "capacidad": "N/A",
+  "categoria": "Alquiler Comercial",
+  "tamanio": 1000,
+  "tipo": "Terreno",
+  "stock": "SI",
+  "detalles": "Predio de gran superficie ideal para estacionamiento o logística. Ubicación céntrica con portón de acceso reforzado."
+}
