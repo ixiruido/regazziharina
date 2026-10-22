@@ -57,7 +57,7 @@ collections:
     files:
       - name: "catalogo_config"
         label: "Configuración Whatsapp"
-        file: "catalogo/config.json"
+        file: "../inmuebles/config.json"
         format: "json"
         fields:
           - name: "whatsapp"
