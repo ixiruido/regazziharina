@@ -1,5 +1,5 @@
 const API_URL =
-    "config.json";
+    "./config.json";
 
 const productosContenedor =
     document.getElementById("productos");
