@@ -141,8 +141,8 @@ collections:
           label: "Archivo de imagen"
           name: "foto"
           widget: "file"
-          media_folder: "catalogo/imagenes"
-          public_folder: "catalogo/imagenes"
+          media_folder: "inmuebles/imagenes"
+          public_folder: "inmuebles/imagenes"
 
       - name: "detalles"
         label: "Descripción"
