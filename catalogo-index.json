@@ -1,6 +1,7 @@
 {
   "propiedades": [
     "propiedad-1.json",
+    "propiedad-10.json",
     "propiedad-2.json",
     "propiedad-3.json",
     "propiedad-4.json",
@@ -8,7 +9,6 @@
     "propiedad-6.json",
     "propiedad-7.json",
     "propiedad-8.json",
-    "propiedad-9.json",
-    "propiedad-10.json"
+    "propiedad-9.json"
   ]
 }
