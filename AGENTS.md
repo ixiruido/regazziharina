@@ -29,7 +29,8 @@ Genera automáticamente los archivos de índice cuando se crean o eliminan aviso
 ### scripts/manage-images.js
 Analiza y limpia imágenes duplicadas y huérfanas.
 - Opciones: `--check-only`, `--clean-dupes`, `--clean-orphan`, `--dry-run`
-- Ejecuta automáticamente via GitHub Action diario (modo dry-run por defecto)
+- Escanea carpetas: `inmuebles/imagenes`, `assets/uploads`, `images`
+- Ejecuta automáticamente via GitHub Action diario para limpiar imágenes huérfanas
 
 ### scripts/rename-images-with-hash.js
 Renombra imágenes con hash basado en contenido para evitar duplicados.
@@ -37,6 +38,13 @@ Renombra imágenes con hash basado en contenido para evitar duplicados.
 
 ### scripts/update-image-references.js
 Actualiza referencias de imágenes en JSONs después de renombrarlas.
+
+### scripts/rename-property-images.js
+Renombra automáticamente las imágenes de una propiedad con el prefijo del ID.
+- Patrón de renombrado: `imagen.jpg` → `propiedad-{id}-imagen.jpg`
+- Busca imágenes en `inmuebles/imagenes` y `assets/uploads`
+- Actualiza las referencias en el JSON de la propiedad
+- Ejecuta automáticamente via GitHub Action cuando se actualiza el catálogo
 
 ## Comandos Útiles
 
