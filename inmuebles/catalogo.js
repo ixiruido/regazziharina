@@ -1,5 +1,5 @@
 const API_URL =
-    "./catalogo.json";
+    "../catalogo/config.json";
 
 const productosContenedor =
     document.getElementById("productos");
@@ -67,28 +67,61 @@ async function cargarProductos() {
             </div>
         `;
 
-        const respuesta =
+        // Cargar configuración general
+        const configResponse =
             await fetch(API_URL);
 
-        if (!respuesta.ok) {
-
+        if (!configResponse.ok) {
             throw new Error(
-                "No se pudo conectar con la API"
+                "No se pudo conectar con la configuración"
             );
-
         }
 
-        const datos =
-            await respuesta.json();
+        const configData =
+            await configResponse.json();
 
         numeroWhatsapp =
-            datos.whatsapp || "";
+            configData.whatsapp || "";
 
         mensajeWhatsapp =
-            datos.mensajeWhatsapp || "";
+            configData.mensajeWhatsapp || "";
+
+        // Cargar índice de propiedades
+        const indexResponse =
+            await fetch("../catalogo-index.json");
+
+        if (!indexResponse.ok) {
+            throw new Error(
+                "No se pudo cargar el índice de propiedades"
+            );
+        }
+
+        const indexData =
+            await indexResponse.json();
+
+        const archivosPropiedades = Array.isArray(indexData.propiedades)
+            ? indexData.propiedades
+            : [];
+
+        // Cargar cada archivo de propiedad
+        const promesasPropiedades = archivosPropiedades.map(async (archivo) => {
+            try {
+                const response = await fetch(`../catalogo/${archivo}`);
+                if (response.ok) {
+                    return await response.json();
+                }
+                return null;
+            } catch (e) {
+                console.error(`Error al cargar ${archivo}:`, e);
+                return null;
+            }
+        });
+
+        const propiedadesCargadas = await Promise.all(promesasPropiedades);
 
         productos =
-            (datos.propiedades || [])
+            propiedadesCargadas
+                .filter(propiedad => propiedad !== null)
                 .filter(
                     producto =>
                         esVisible(producto)
