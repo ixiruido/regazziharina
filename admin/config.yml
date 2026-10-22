@@ -64,10 +64,11 @@ collections:
 
     fields:
       - name: "id"
-        label: "ID de propiedad"
-        widget: "number"
-        value_type: "int"
-        required: true
+        label: "ID de propiedad (auto-generado)"
+        widget: "string"
+        default: ""
+        required: false
+        hint: "Se asigna automáticamente al guardar. No editar."
 
       - name: "tipo"
         label: "Tipo de propiedad"

@@ -101,47 +101,110 @@
 <script>
   CMS.registerEventListener({
     name: "preSave",
-    handler: ({ entry }) => {
-      const data = entry.get("data");
-      const propiedades = data.get("propiedades");
+    handler: async ({ entry }) => {
+      const collection = entry.get("collection");
+      const collectionName = collection.get("name");
 
-      // Este generador solo actúa sobre el catálogo inmobiliario.
-      if (!propiedades || typeof propiedades.map !== "function") {
+      // Solo actuar sobre la colección de catálogo (propiedades individuales)
+      if (collectionName !== "catalogo") {
         return;
       }
 
-      // Busca el ID numérico más alto que ya existe.
-      let maxId = 0;
+      const data = entry.get("data");
+      const idActual = data.get("id");
 
-      propiedades.forEach((propiedad) => {
-        const id = Number(propiedad.get("id"));
+      // Si ya tiene un ID asignado, no modificar
+      if (idActual && String(idActual).trim() !== "") {
+        return;
+      }
 
-        if (Number.isInteger(id) && id > maxId) {
-          maxId = id;
+      // Obtener el máximo ID existente leyendo el archivo de índice
+      try {
+        const response = await fetch("/catalogo-index.json");
+        const indexData = await response.json();
+
+        let maxId = 0;
+        if (indexData.files && Array.isArray(indexData.files)) {
+          for (const file of indexData.files) {
+            try {
+              const fileResponse = await fetch(`/catalogo/${file}`);
+              const fileData = await fileResponse.json();
+              const fileId = Number(fileData.id);
+              if (Number.isInteger(fileId) && fileId > maxId) {
+                maxId = fileId;
+              }
+            } catch (e) {
+              console.error("Error reading property file:", e);
+            }
+          }
         }
-      });
 
-      // Asigna IDs únicamente a las propiedades que todavía no tienen.
-      let siguienteId = maxId + 1;
-
-      const propiedadesActualizadas = propiedades.map((propiedad) => {
-        const idActual = propiedad.get("id");
-
-        if (
-          idActual === undefined ||
-          idActual === null ||
-          String(idActual).trim() === ""
-        ) {
-          propiedad = propiedad.set("id", siguienteId);
-          siguienteId++;
-        }
-
-        return propiedad;
-      });
-
-      return data.set("propiedades", propiedadesActualizadas);
+        // Asignar el siguiente ID
+        const nuevoId = maxId + 1;
+        return data.set("id", nuevoId);
+      } catch (error) {
+        console.error("Error generating auto ID:", error);
+        // Fallback: usar timestamp si falla la lectura del índice
+        return data.set("id", Date.now());
+      }
     }
   });
+</script>
+
+<!-- Preview personalizado para Avisos -->
+<script>
+  const AvisosPreview = ({ entry }) => {
+    const data = entry.getIn(['data']).toJS();
+    return React.createElement('div', { className: 'cms-preview-avisos' },
+      React.createElement('h1', {}, data.titulo || 'Sin título'),
+      React.createElement('div', { className: 'cms-preview-field' },
+        React.createElement('span', { className: 'cms-preview-label' }, 'Fecha'),
+        React.createElement('p', {}, data.fecha || 'Sin fecha')
+      ),
+      React.createElement('div', { className: 'cms-preview-field' },
+        React.createElement('span', { className: 'cms-preview-label' }, 'Autor'),
+        React.createElement('p', {}, data.autor || 'Sin autor')
+      ),
+      React.createElement('div', { className: 'cms-preview-field' },
+        React.createElement('span', { className: 'cms-preview-label' }, 'Texto'),
+        React.createElement('p', {}, data.texto || 'Sin texto')
+      ),
+      data.adjunto && React.createElement('div', { className: 'cms-preview-field' },
+        React.createElement('span', { className: 'cms-preview-label' }, 'Adjunto'),
+        React.createElement('img', { src: data.adjunto, alt: 'Adjunto' })
+      )
+    );
+  };
+  CMS.registerPreviewTemplate('avisos', AvisosPreview);
+</script>
+
+<!-- Preview personalizado para Catálogo de Inmuebles -->
+<script>
+  const CatalogoPreview = ({ entry }) => {
+    const data = entry.getIn(['data']).toJS();
+    const fotos = data.fotos || [];
+    const fotoPrincipal = fotos.length > 0 ? (fotos[0].foto || fotos[0]) : null;
+
+    return React.createElement('div', { className: 'cms-preview-catalogo' },
+      React.createElement('div', { className: 'property-card' },
+        fotoPrincipal && React.createElement('div', { className: 'property-images' },
+          React.createElement('img', { src: fotoPrincipal, alt: data.titulo || 'Propiedad' })
+        ),
+        React.createElement('div', { className: 'property-info' },
+          React.createElement('div', { className: 'property-category' }, `${data.categoria || ''} - ${data.tipo || ''}`),
+          React.createElement('h2', { className: 'property-title' }, data.localidad || 'Sin localidad'),
+          React.createElement('div', { className: 'property-address' }, data.direccion || 'Sin dirección'),
+          React.createElement('div', { className: 'property-tags' },
+            React.createElement('span', { className: 'property-tag location' }, data.localidad || ''),
+            data.tamanio && React.createElement('span', { className: 'property-tag size' }, `${data.tamanio} m²`)
+          ),
+          React.createElement('div', { className: 'property-description' }, data.detalles || 'Sin descripción'),
+          React.createElement('div', { className: 'property-price' }, data.precio || 'Sin precio')
+        )
+      )
+    );
+  };
+  CMS.registerPreviewTemplate('catalogo', CatalogoPreview);
 </script>
 
 

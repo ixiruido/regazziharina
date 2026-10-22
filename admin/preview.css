@@ -1,4 +1,204 @@
+/* Importar fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;500;600&family=Merriweather:wght@400;600&display=swap');
 
+/* Variables globales del sitio */
+:root {
+  --bg-dark: #2a2d33;
+  --bg-card: #353942;
+  --gold-primary: #d4b896;
+  --gold-hover: #e8d4b8;
+  --text-light: #f5f0e6;
+  --text-muted: #d4c9b8;
+  --font-main: 'Montserrat', sans-serif;
+  --font-headers: 'Merriweather', serif;
+}
+
+/* Estilos base para avisos (preview tipo web principal) */
+.cms-preview-avisos {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 3rem 8%;
+  font-family: var(--font-main);
+  line-height: 1.6;
+}
+
+.cms-preview-avisos h1,
+.cms-preview-avisos h2,
+.cms-preview-avisos h3 {
+  font-family: var(--font-headers) !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.cms-preview-avisos h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.cms-preview-avisos h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.cms-preview-avisos p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.cms-preview-avisos .cms-preview-field {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: rgba(36, 40, 48, 0.7);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: 12px;
+}
+
+.cms-preview-avisos .cms-preview-label {
+  display: block;
+  color: var(--gold-primary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.cms-preview-avisos img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.cms-preview-avisos a {
+  color: var(--gold-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.cms-preview-avisos a:hover {
+  color: var(--gold-hover);
+}
+
+/* Estilos base para catálogo (preview tipo popout) */
+.cms-preview-catalogo {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1a202c;
+  padding: 24px;
+}
+
+.cms-preview-catalogo .property-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.cms-preview-catalogo .property-images {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.cms-preview-catalogo .property-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cms-preview-catalogo .property-info {
+  padding: 16px;
+}
+
+.cms-preview-catalogo .property-category {
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 7px;
+}
+
+.cms-preview-catalogo .property-title {
+  font-size: 16px;
+  margin: 0 0 8px;
+  line-height: 1.25;
+  color: #1a202c;
+}
+
+.cms-preview-catalogo .property-address {
+  color: #777;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.cms-preview-catalogo .property-description {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.cms-preview-catalogo .property-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.cms-preview-catalogo .property-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cms-preview-catalogo .property-tag.location {
+  background: linear-gradient(135deg, #e8f4f8, #d1e8f0);
+  color: #2c5f7c;
+}
+
+.cms-preview-catalogo .property-tag.size {
+  background: linear-gradient(135deg, #fef5e7, #fdebd0);
+  color: #8b4513;
+}
+
+.cms-preview-catalogo .property-price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+.cms-preview-catalogo .cms-preview-field {
+  margin-bottom: 1rem;
+}
+
+.cms-preview-catalogo .cms-preview-label {
+  display: block;
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Fallback base styles */
 body {
   font-family: Inter, Arial, sans-serif;
   color: #1e293b;
