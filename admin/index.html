@@ -103,7 +103,7 @@
     name: "preSave",
     handler: async ({ entry }) => {
       const collection = entry.get("collection");
-      const collectionName = collection.get("name");
+      const collectionName = typeof collection === 'string' ? collection : collection.get("name");
 
       // Solo actuar sobre la colección de catálogo (propiedades individuales)
       if (collectionName !== "catalogo") {
