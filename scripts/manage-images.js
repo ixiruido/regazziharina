@@ -20,7 +20,7 @@ const path = require('path');
 
 // Configuración
 const DIRECTORIOS_IMAGENES = [
-    'imagenes',
+    'inmuebles/imagenes',
     'assets/uploads',
     'images'
 ];
