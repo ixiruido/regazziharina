@@ -42,7 +42,7 @@ collections:
 
       - name: "texto"
         label: "Texto del Aviso"
-        widget: "string"
+        widget: "text"
         required: true
 
       - name: "adjunto"
