@@ -22,7 +22,7 @@ jobs:
           node-version: '18'
 
       - name: Run image cleanup
-        run: node scripts/manage-images.js --clean-dupes --clean-orphan --dry-run
+        run: node scripts/manage-images.js --clean-dupes --clean-orphan
 
       - name: Commit changes
         run: |
