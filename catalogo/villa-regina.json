@@ -1,0 +1,18 @@
+{
+  "precio": "ARS 450.000",
+  "destacado": "NO",
+  "localidad": "Villa Regina",
+  "fotos": [
+    "../inmuebles/imagenes/foto.jpg",
+    "../inmuebles/imagenes/foto2.avif"
+  ],
+  "direccion": "Yapeyu Sur 570",
+  "visible": "SI",
+  "capacidad": "5",
+  "categoria": "Alquiler",
+  "tamanio": 51,
+  "tipo": "Departamento",
+  "stock": "SI",
+  "id": 1,
+  "detalles": "pruebaaaa"
+}
