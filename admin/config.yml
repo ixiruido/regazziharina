@@ -76,7 +76,8 @@ collections:
     folder: "catalogo"
     create: true
     slug: "{{slug}}"
-    identifier_field: "{{ localidad }}{{ tipo }}{{ direccion }}"
+    identifier_field: "id"
+    summary: "{{tipo}} - {{localidad}} - {{direccion}}"
     extension: "json"
     format: "json"
     delete: true
