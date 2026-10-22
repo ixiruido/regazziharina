@@ -14,7 +14,7 @@ public_folder: "/assets/uploads"
 # Configuración de las colecciones
 collections:
   - name: "avisos"
-    label: "Avisos"
+    label: "Editar Avisos"
     folder: "avisos"
     create: true
     slug: "{{slug}}"
@@ -52,11 +52,11 @@ collections:
 
  
   - name: "configuracion_catalogo"
-    label: "Configuración del Catálogo"
+    label: "Config. del Catálogo"
     delete: false
     files:
       - name: "catalogo_config"
-        label: "Configuración General"
+        label: "Configuración Whatsapp"
         file: "catalogo/config.json"
         format: "json"
         fields:
@@ -76,7 +76,7 @@ collections:
     folder: "catalogo"
     create: true
     slug: "{{slug}}"
-    identifier_field: "id"
+    identifier_field: "localidad + tipo"
     extension: "json"
     format: "json"
     delete: true
