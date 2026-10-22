@@ -19,6 +19,7 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: "titulo"
+    summary: "{{titulo}} - {{fecha}} - {{autor}}"
     extension: "json"
     format: "json"
     delete: true

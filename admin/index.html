@@ -151,61 +151,7 @@
   });
 </script>
 
-<!-- Preview personalizado para Avisos -->
-<script>
-  const AvisosPreview = ({ entry }) => {
-    const data = entry.getIn(['data']).toJS();
-    return React.createElement('div', { className: 'cms-preview-avisos' },
-      React.createElement('h1', {}, data.titulo || 'Sin título'),
-      React.createElement('div', { className: 'cms-preview-field' },
-        React.createElement('span', { className: 'cms-preview-label' }, 'Fecha'),
-        React.createElement('p', {}, data.fecha || 'Sin fecha')
-      ),
-      React.createElement('div', { className: 'cms-preview-field' },
-        React.createElement('span', { className: 'cms-preview-label' }, 'Autor'),
-        React.createElement('p', {}, data.autor || 'Sin autor')
-      ),
-      React.createElement('div', { className: 'cms-preview-field' },
-        React.createElement('span', { className: 'cms-preview-label' }, 'Texto'),
-        React.createElement('p', {}, data.texto || 'Sin texto')
-      ),
-      data.adjunto && React.createElement('div', { className: 'cms-preview-field' },
-        React.createElement('span', { className: 'cms-preview-label' }, 'Adjunto'),
-        React.createElement('img', { src: data.adjunto, alt: 'Adjunto' })
-      )
-    );
-  };
-  CMS.registerPreviewTemplate('avisos', AvisosPreview);
-</script>
 
-<!-- Preview personalizado para Catálogo de Inmuebles -->
-<script>
-  const CatalogoPreview = ({ entry }) => {
-    const data = entry.getIn(['data']).toJS();
-    const fotos = data.fotos || [];
-    const fotoPrincipal = fotos.length > 0 ? (fotos[0].foto || fotos[0]) : null;
-
-    return React.createElement('div', { className: 'cms-preview-catalogo' },
-      React.createElement('div', { className: 'property-card' },
-        fotoPrincipal && React.createElement('div', { className: 'property-images' },
-          React.createElement('img', { src: fotoPrincipal, alt: data.titulo || 'Propiedad' })
-        ),
-        React.createElement('div', { className: 'property-info' },
-          React.createElement('div', { className: 'property-category' }, `${data.categoria || ''} - ${data.tipo || ''}`),
-          React.createElement('h2', { className: 'property-title' }, data.localidad || 'Sin localidad'),
-          React.createElement('div', { className: 'property-address' }, data.direccion || 'Sin dirección'),
-          React.createElement('div', { className: 'property-tags' },
-            React.createElement('span', { className: 'property-tag location' }, data.localidad || ''),
-            data.tamanio && React.createElement('span', { className: 'property-tag size' }, `${data.tamanio} m²`)
-          ),
-          React.createElement('div', { className: 'property-description' }, data.detalles || 'Sin descripción'),
-          React.createElement('div', { className: 'property-price' }, data.precio || 'Sin precio')
-        )
-      )
-    );
-  };
-  CMS.registerPreviewTemplate('catalogo', CatalogoPreview);
-</script>
 
 
   
