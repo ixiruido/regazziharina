@@ -3,7 +3,7 @@
   "destacado": "NO",
   "localidad": "Villa Regina",
   "fotos": [
-    "catalogo/imagenes/fondoeaea.jpg"
+    "../inmuebles/imagenes/fondoeaea.jpg"
   ],
   "direccion": "Yapeyu Sur 570",
   "visible": "SI",
