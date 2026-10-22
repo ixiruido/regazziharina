@@ -128,35 +128,64 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Función para cargar y mostrar avisos desde avisos.json
+// Función para cargar y mostrar avisos desde la carpeta avisos/
 
 async function cargarAvisos() {
     const avisosContainer = document.getElementById('avisos-container');
+    const avisosSection = document.getElementById('avisos');
 
     if (!avisosContainer) return;
 
     try {
-        const response = await fetch('./avisos.json', {
+        // Cargar el índice de avisos
+        const indexResponse = await fetch('./avisos-index.json', {
             cache: 'no-store'
         });
 
-        if (!response.ok) {
-            throw new Error('No se pudo cargar el archivo de avisos');
+        if (!indexResponse.ok) {
+            throw new Error('No se pudo cargar el índice de avisos');
         }
 
-        const datos = await response.json();
+        const indexData = await indexResponse.json();
+        const archivosAvisos = Array.isArray(indexData.avisos) ? indexData.avisos : [];
 
-        // Aceptar tanto una lista directa como el formato de Decap CMS
-        const avisos = Array.isArray(datos)
-            ? datos
-            : Array.isArray(datos.avisos)
-                ? datos.avisos
-                : [];
+        if (archivosAvisos.length === 0) {
+            // Ocultar la sección de avisos si no hay avisos
+            if (avisosSection) {
+                avisosSection.style.display = 'none';
+            }
+            return;
+        }
+
+        // Cargar cada archivo de aviso
+        const promesasAvisos = archivosAvisos.map(async (archivo) => {
+            try {
+                const response = await fetch(`./avisos/${archivo}`, {
+                    cache: 'no-store'
+                });
+                if (response.ok) {
+                    return await response.json();
+                }
+                return null;
+            } catch (e) {
+                console.error(`Error al cargar ${archivo}:`, e);
+                return null;
+            }
+        });
+
+        const avisosCargados = await Promise.all(promesasAvisos);
+        const avisos = avisosCargados.filter(aviso => aviso !== null);
 
         if (avisos.length === 0) {
-            avisosContainer.innerHTML =
-                '<p class="avisos-placeholder">No hay avisos disponibles</p>';
+            if (avisosSection) {
+                avisosSection.style.display = 'none';
+            }
             return;
+        }
+
+        // Mostrar la sección si hay avisos
+        if (avisosSection) {
+            avisosSection.style.display = 'block';
         }
 
         // Ordenar por fecha: los más recientes primero
