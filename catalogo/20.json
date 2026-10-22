@@ -1,0 +1,17 @@
+{
+  "precio": "ARS 350.000",
+  "destacado": "NO",
+  "localidad": "Villa Regina",
+  "fotos": [
+    "catalogo/imagenes/fondoeaea.jpg"
+  ],
+  "direccion": "Yapeyu Sur 570",
+  "visible": "SI",
+  "capacidad": "5",
+  "categoria": "Alquiler Comercial",
+  "tamanio": 70,
+  "tipo": "Local",
+  "stock": "SI",
+  "id": 20,
+  "detalles": "prueba"
+}
