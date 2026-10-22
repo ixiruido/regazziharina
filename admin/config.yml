@@ -76,8 +76,8 @@ collections:
     folder: "catalogo"
     create: true
     slug: "{{slug}}"
-    identifier_field: "id"
-    summary: "{{tipo}} - {{localidad}} - {{direccion}}"
+    identifier_field: "localidad"
+    summary: "{{localidad}} - {{tipo}} - {{direccion}}"
     extension: "json"
     format: "json"
     delete: true
@@ -141,8 +141,8 @@ collections:
           label: "Archivo de imagen"
           name: "foto"
           widget: "file"
-          media_folder: "inmuebles/imagenes"
-          public_folder: "inmuebles/imagenes"
+          media_folder: "../inmuebles/imagenes"
+          public_folder: "../inmuebles/imagenes"
 
       - name: "detalles"
         label: "Descripción"
