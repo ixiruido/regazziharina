@@ -51,26 +51,6 @@ collections:
         required: false
 
  
-  - name: "configuracion_catalogo"
-    label: "Config. del Catálogo"
-    delete: false
-    files:
-      - name: "catalogo_config"
-        label: "Configuración Whatsapp"
-        file: "../inmuebles/config.json"
-        format: "json"
-        fields:
-          - name: "whatsapp"
-            label: "Número de WhatsApp"
-            widget: "string"
-            required: true
-            hint: "Formato internacional sin + ni espacios. Ej.: 5492985096108"
-
-          - name: "mensajeWhatsapp"
-            label: "Mensaje inicial de WhatsApp"
-            widget: "string"
-            required: true
-
   - name: "catalogo"
     label: "Catálogo de Inmuebles"
     folder: "catalogo"
