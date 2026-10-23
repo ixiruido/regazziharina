@@ -4,10 +4,6 @@
   "localidad": "Villa Regina, Río Negro",
   "orden": "",
   "fotos": [
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
     "../inmuebles/imagenes/propiedad-3.jpg"
   ],
   "direccion": "Las Heras 215",
@@ -17,5 +13,6 @@
   "tamanio": 600,
   "tipo": "Terreno",
   "stock": "NO",
+  "id": 1,
   "detalles": "Terreno en esquina comercial estratégica. Listo para transferir con escritura inmediata y planos de subdivisión aprobados."
 }
