@@ -1783,12 +1783,6 @@ function abrirModalProducto(producto) {
         whatsappMensaje: mensajeWhatsapp
     };
 
-    // Reiniciar scroll del modal al inicio
-    const modalContent = document.querySelector('.modal-content');
-    if (modalContent) {
-        modalContent.scrollTop = 0;
-    }
-
     // Actualizar URL con el nombre del archivo de la propiedad
     if (producto.nombreArchivo) {
         const url = new URL(window.location);
@@ -1799,6 +1793,18 @@ function abrirModalProducto(producto) {
     // Mostrar modal dentro del iframe
     modal.classList.remove('oculto');
     document.body.style.overflow = 'hidden';
+
+    // Reiniciar scroll del modal al inicio (después de que sea visible)
+    setTimeout(() => {
+        const modalScrollWrapper = document.querySelector('.modal-scroll-wrapper');
+        if (modalScrollWrapper) {
+            modalScrollWrapper.scrollTo(0, 0);
+        }
+        const modalElement = document.querySelector('.producto-modal');
+        if (modalElement) {
+            modalElement.scrollTo(0, 0);
+        }
+    }, 10);
 }
 
 function cerrarModalProducto() {
