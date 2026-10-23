@@ -257,6 +257,15 @@ if (require.main === module) {
   }
 }
 
+console.log('DEBUG: directorio de imágenes:', IMAGENES_DIR);
+console.log('DEBUG: existe la carpeta:', fs.existsSync(IMAGENES_DIR));
+console.log(
+  'DEBUG: archivos disponibles:',
+  fs.existsSync(IMAGENES_DIR)
+    ? fs.readdirSync(IMAGENES_DIR)
+    : []
+);
+
 module.exports = {
   renamePropertyImages,
   processAllProperties
