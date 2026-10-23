@@ -120,14 +120,21 @@ function extraerRutasImagenes(objeto, referencias) {
             if (valor.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
                 // Normalizar la ruta
                 let rutaNormalizada = valor.trim();
-                if (rutaNormalizada.startsWith('/')) {
-                    rutaNormalizada = rutaNormalizada.substring(1);
+                
+                // Eliminar prefijos de ruta relativos y absolutos
+                if (rutaNormalizada.startsWith('../')) {
+                    rutaNormalizada = rutaNormalizada.substring(3);
                 }
                 if (rutaNormalizada.startsWith('./')) {
                     rutaNormalizada = rutaNormalizada.substring(2);
                 }
+                if (rutaNormalizada.startsWith('/')) {
+                    rutaNormalizada = rutaNormalizada.substring(1);
+                }
+                
                 // Reemplazar backslashes con forward slashes
                 rutaNormalizada = rutaNormalizada.replace(/\\/g, '/');
+                
                 referencias.add(rutaNormalizada);
             }
         } else if (typeof valor === 'object') {
