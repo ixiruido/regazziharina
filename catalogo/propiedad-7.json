@@ -1,15 +1,14 @@
 {
-  "id": 7,
   "precio": "USD 75.000",
   "destacado": "NO",
   "localidad": "Ingeniero Huergo, Río Negro",
   "orden": "",
   "fotos": [
-    "imagenes/propiedad-8.jpg",
-    "imagenes/propiedad-8.jpg",
-    "imagenes/propiedad-8.jpg",
-    "imagenes/propiedad-8.jpg",
-    "imagenes/propiedad-8.jpg"
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg"
   ],
   "direccion": "Avenida San Martín 520",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 90,
   "tipo": "Casa",
   "stock": "SI",
+  "id": 7,
   "detalles": "Propiedad de 2 habitaciones y 1 baño. No tiene garage, pero incluye patio chico con parrilla. Propiedad reciclada a nuevo."
 }
