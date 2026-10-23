@@ -1,0 +1,16 @@
+{
+  "precio": "123",
+  "destacado": "NO",
+  "localidad": "villa regina",
+  "fotos": [
+    "../inmuebles/imagenes/images.jpg"
+  ],
+  "direccion": "yapeyu sur 200",
+  "visible": "SI",
+  "categoria": "Alquiler",
+  "tamanio": 24,
+  "tipo": "Departamento",
+  "stock": "SI",
+  "id": 1,
+  "detalles": "pruebaaaa"
+}
