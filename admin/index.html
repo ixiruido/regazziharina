@@ -98,6 +98,109 @@
   CMS.registerPreviewStyle("/admin/preview.css");
 </script>
 
+
+
+<script>
+  CMS.registerPreviewTemplate(
+    "catalogo",
+    createClass({
+      render: function () {
+        var entry = this.props.entry;
+        var data = entry.get("data");
+
+        function valor(campo) {
+          var dato = data.get(campo);
+          return dato == null ? "" : String(dato);
+        }
+
+        var fotosData = data.get("fotos");
+        var fotos = fotosData && fotosData.toArray
+          ? fotosData.toArray()
+          : Array.isArray(fotosData)
+            ? fotosData
+            : [];
+
+        var imagenes = fotos
+          .map(function (foto) {
+            if (typeof foto === "string") {
+              return foto;
+            }
+
+            if (foto && typeof foto.get === "function") {
+              return foto.get("foto");
+            }
+
+            return foto && typeof foto.foto === "string"
+              ? foto.foto
+              : null;
+          })
+          .filter(Boolean);
+
+        var h = createElement;
+
+        return h(
+          "div",
+          { className: "cms-preview-catalogo" },
+          h(
+            "article",
+            { className: "property-card" },
+
+            h(
+              "div",
+              { className: "property-thumbnails" },
+              imagenes.length
+                ? imagenes.map(function (ruta, index) {
+                    var asset = this.props.getAsset(ruta);
+                    var src = asset ? asset.toString() : ruta;
+
+                    return h("img", {
+                      key: index,
+                      src: src,
+                      alt: "Foto " + (index + 1),
+                      loading: "lazy"
+                    });
+                  }, this)
+                : h("p", {}, "Todavía no hay fotos seleccionadas")
+            ),
+
+            h(
+              "div",
+              { className: "property-info" },
+              h("div", { className: "property-category" },
+                valor("categoria") + " · " + valor("tipo")
+              ),
+              h("h2", { className: "property-title" },
+                valor("localidad") || "Nueva propiedad"
+              ),
+              h("p", { className: "property-address" },
+                valor("direccion")
+              ),
+              h("p", { className: "property-description" },
+                valor("detalles")
+              ),
+              h("div", { className: "property-tags" },
+                h("span", { className: "property-tag" },
+                  valor("tamanio") ? valor("tamanio") + " m²" : ""
+                ),
+                h("span", { className: "property-tag" },
+                  "Capacidad: " + valor("capacidad")
+                )
+              ),
+              h("p", { className: "property-price" },
+                valor("precio")
+              )
+            )
+          )
+        );
+      }
+    })
+  );
+</script>
+
+
+
+  
+
 <script>
   CMS.registerEventListener({
     name: "preSave",
