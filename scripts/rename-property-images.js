@@ -6,6 +6,7 @@ const CATALOGO_DIR = path.join(__dirname, '..', 'catalogo');
 const IMAGENES_DIR = path.join(__dirname, '..', 'inmuebles', 'imagenes');
 const ASSETS_DIR = path.join(__dirname, '..', 'assets', 'uploads');
 
+// Busca la imagen original por nombre en las carpetas conocidas.
 function buscarImagen(nombreArchivo) {
   const directorios = [IMAGENES_DIR, ASSETS_DIR];
 
@@ -20,7 +21,16 @@ function buscarImagen(nombreArchivo) {
   return null;
 }
 
-function rutaPublicaOriginal(_rutaOriginal, nuevoNombre) {
+// Conserva el formato de ruta que utiliza Decap CMS.
+function rutaPublicaOriginal(rutaOriginal, nuevoNombre) {
+  const normalizada = rutaOriginal.replace(/\\/g, '/');
+  const marcador = 'inmuebles/imagenes/';
+
+  if (normalizada.includes(marcador)) {
+    const indice = normalizada.lastIndexOf(marcador);
+    return normalizada.slice(0, indice) + marcador + nuevoNombre;
+  }
+
   return `../inmuebles/imagenes/${nuevoNombre}`;
 }
 
@@ -47,62 +57,64 @@ function archivosIguales(rutaA, rutaB) {
   return hashArchivo(rutaA) === hashArchivo(rutaB);
 }
 
-function crearCopiaExclusiva(origen, propertyId, numero, extension) {
-  const nombreBase = `${propertyId}-${numero}${extension}`;
-  let destino = path.join(IMAGENES_DIR, nombreBase);
+// Copia la imagen sin mover ni borrar el archivo de origen.
+function copiarImagen(origen, propertyId, numero, extension) {
+  fs.mkdirSync(IMAGENES_DIR, { recursive: true });
 
-  // Si el destino es el propio archivo de origen, ya está asignado.
+  const nombreBase = `${propertyId}-${numero}${extension}`;
+  let nombreDestino = nombreBase;
+  let destino = path.join(IMAGENES_DIR, nombreDestino);
+
+  // Si origen y destino son el mismo archivo, ya está correctamente nombrado.
   if (path.resolve(origen) === path.resolve(destino)) {
-    return nombreBase;
+    return nombreDestino;
   }
 
-  // Si la copia ya existe y tiene el mismo contenido, reutilizarla.
+  // Si el destino existe, comprobar si contiene la misma imagen.
   if (fs.existsSync(destino)) {
     if (archivosIguales(origen, destino)) {
-      console.log(`♻️ Copia existente reutilizada: ${nombreBase}`);
-      return nombreBase;
+      console.log(`♻️ Copia existente reutilizada: ${nombreDestino}`);
+      return nombreDestino;
     }
 
-    // No sobrescribir una imagen diferente.
-    // Usar un nombre alternativo estable basado en el contenido.
+    // No sobrescribir archivos diferentes: usar un nombre alternativo estable.
     const hash = hashArchivo(origen);
-    const nombreAlternativo = `${propertyId}-${numero}-${hash}${extension}`;
-    destino = path.join(IMAGENES_DIR, nombreAlternativo);
+    nombreDestino = `${propertyId}-${numero}-${hash}${extension}`;
+    destino = path.join(IMAGENES_DIR, nombreDestino);
 
     if (path.resolve(origen) === path.resolve(destino)) {
-      return nombreAlternativo;
+      return nombreDestino;
     }
 
     if (fs.existsSync(destino)) {
       if (archivosIguales(origen, destino)) {
-        console.log(`♻️ Copia existente reutilizada: ${nombreAlternativo}`);
-        return nombreAlternativo;
+        console.log(`♻️ Copia existente reutilizada: ${nombreDestino}`);
+        return nombreDestino;
       }
 
       throw new Error(
-        `Conflicto: existe ${nombreAlternativo} con contenido diferente`
+        `Conflicto: ${nombreDestino} ya existe con contenido diferente`
       );
     }
-
-    fs.copyFileSync(origen, destino, fs.constants.COPYFILE_EXCL);
-    console.log(`📄 Copia creada: ${path.basename(origen)} → ${nombreAlternativo}`);
-    return nombreAlternativo;
   }
 
-  // Crear la carpeta de destino si hace falta.
-  fs.mkdirSync(IMAGENES_DIR, { recursive: true });
-
-  // COPYFILE_EXCL evita sobrescribir archivos existentes.
+  // COPYFILE_EXCL impide sobrescribir un archivo existente.
   fs.copyFileSync(origen, destino, fs.constants.COPYFILE_EXCL);
 
-  console.log(`📄 Copia creada: ${path.basename(origen)} → ${nombreBase}`);
+  console.log(
+    `📄 Copia creada: ${path.basename(origen)} → ${nombreDestino}`
+  );
 
-  return nombreBase;
+  return nombreDestino;
 }
 
 function renamePropertyImages(propertyFile) {
   try {
-    const property = JSON.parse(fs.readFileSync(propertyFile, 'utf8'));
+    const property = JSON.parse(
+      fs.readFileSync(propertyFile, 'utf8')
+    );
+
+    // La identidad se obtiene del nombre del JSON, no del campo id.
     const propertyId = path.basename(propertyFile, '.json');
 
     if (!Array.isArray(property.fotos) || property.fotos.length === 0) {
@@ -112,8 +124,11 @@ function renamePropertyImages(propertyFile) {
 
     let cambios = 0;
     let errores = 0;
+    const fotosActualizadas = [];
 
-    const fotosActualizadas = property.fotos.map((foto, index) => {
+    for (let i = 0; i < property.fotos.length; i++) {
+      const foto = property.fotos[i];
+
       const rutaOriginal =
         typeof foto === 'string'
           ? foto
@@ -123,10 +138,10 @@ function renamePropertyImages(propertyFile) {
 
       if (!rutaOriginal) {
         console.warn(
-          `⚠️ Foto ${index + 1} de ${propertyId}: formato no reconocido`
+          `⚠️ ${propertyId}, foto ${i + 1}: formato no reconocido; se conserva`
         );
-        errores++;
-        return foto;
+        fotosActualizadas.push(foto);
+        continue;
       }
 
       const rutaLimpia = rutaOriginal
@@ -138,59 +153,70 @@ function renamePropertyImages(propertyFile) {
 
       if (!extension) {
         console.warn(
-          `⚠️ ${propertyId}, foto ${index + 1}: no se reconoce la extensión de ${nombreOriginal}`
+          `⚠️ ${propertyId}, foto ${i + 1}: extensión no reconocida (${nombreOriginal})`
         );
-        errores++;
-        return foto;
+        fotosActualizadas.push(foto);
+        continue;
       }
 
       const archivoEncontrado = buscarImagen(nombreOriginal);
-      console.log(`[DEBUG] ${propertyId}, foto ${index + 1}: ${nombreOriginal}`, archivoEncontrado ? `ENCONTRADA: ${archivoEncontrado.ruta}` : 'NO ENCONTRADA');
 
-      
+      console.log(
+        `[DEBUG] ${propertyId}, foto ${i + 1}: ${nombreOriginal}`,
+        archivoEncontrado
+          ? `ENCONTRADA: ${archivoEncontrado.ruta}`
+          : 'NO ENCONTRADA'
+      );
+
       if (!archivoEncontrado) {
+        // Mantiene el comportamiento del script anterior:
+        // una imagen faltante se informa, pero no detiene todo el workflow.
         console.warn(
           `⚠️ No se encontró ${nombreOriginal}; se conserva la referencia original`
         );
-        errores++;
-        return foto;
+
+        fotosActualizadas.push(foto);
+        continue;
       }
 
       try {
-        // Cada posición de la lista obtiene un archivo exclusivo.
-        // Por ejemplo: propiedad-12-1.jpg, propiedad-12-2.jpg.
-        const numero = index + 1;
+        const numero = i + 1;
 
-        const nuevoNombre = crearCopiaExclusiva(
+        const nuevoNombre = copiarImagen(
           archivoEncontrado.ruta,
           propertyId,
           numero,
           extension
         );
 
-        const nuevaRuta = rutaPublicaOriginal(rutaOriginal, nuevoNombre);
+        const nuevaRuta = rutaPublicaOriginal(
+          rutaOriginal,
+          nuevoNombre
+        );
+
+        if (typeof foto === 'string') {
+          fotosActualizadas.push(nuevaRuta);
+        } else {
+          fotosActualizadas.push({
+            ...foto,
+            foto: nuevaRuta
+          });
+        }
 
         if (nuevaRuta !== rutaOriginal) {
           cambios++;
         }
-
-        if (typeof foto === 'string') {
-          return nuevaRuta;
-        }
-
-        return {
-          ...foto,
-          foto: nuevaRuta
-        };
       } catch (error) {
         console.error(
-          `❌ Error con ${nombreOriginal} en ${propertyId}: ${error.message}`
+          `❌ Error copiando ${nombreOriginal} para ${propertyId}: ${error.message}`
         );
-        errores++;
-        return foto;
-      }
-    });
 
+        errores++;
+        fotosActualizadas.push(foto);
+      }
+    }
+
+    // Guardar las referencias nuevas en el JSON.
     if (cambios > 0) {
       property.fotos = fotosActualizadas;
 
@@ -199,17 +225,26 @@ function renamePropertyImages(propertyFile) {
         JSON.stringify(property, null, 2) + '\n'
       );
 
-      console.log(`📝 ${propertyId}: JSON actualizado (${cambios} referencias)`);
+      console.log(
+        `📝 ${propertyId}: JSON actualizado (${cambios} referencias)`
+      );
     } else {
-      console.log(`ℹ️ ${propertyId}: no hubo referencias que actualizar`);
+      console.log(
+        `ℹ️ ${propertyId}: no hubo referencias que actualizar`
+      );
     }
 
+    // Los errores reales de copia sí deben detener el workflow.
     if (errores > 0) {
-      console.warn(`⚠️ ${propertyId}: ${errores} foto(s) requieren revisión`);
+      console.error(
+        `❌ ${propertyId}: ${errores} error(es) al copiar imágenes`
+      );
       process.exitCode = 1;
     }
   } catch (error) {
-    console.error(`❌ Error procesando ${propertyFile}: ${error.message}`);
+    console.error(
+      `❌ Error procesando ${propertyFile}: ${error.message}`
+    );
     process.exitCode = 1;
   }
 }
@@ -223,13 +258,13 @@ function processAllProperties() {
     return;
   }
 
-  if (!fs.existsSync(IMAGENES_DIR)) {
-    fs.mkdirSync(IMAGENES_DIR, { recursive: true });
-  }
+  fs.mkdirSync(IMAGENES_DIR, { recursive: true });
 
   const files = fs.readdirSync(CATALOGO_DIR)
     .filter(file => file.endsWith('.json') && file !== 'config.json')
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+    .sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    );
 
   console.log(`📁 Encontradas ${files.length} propiedades`);
 
@@ -258,15 +293,6 @@ if (require.main === module) {
     processAllProperties();
   }
 }
-
-console.log('DEBUG: directorio de imágenes:', IMAGENES_DIR);
-console.log('DEBUG: existe la carpeta:', fs.existsSync(IMAGENES_DIR));
-console.log(
-  'DEBUG: archivos disponibles:',
-  fs.existsSync(IMAGENES_DIR)
-    ? fs.readdirSync(IMAGENES_DIR)
-    : []
-);
 
 module.exports = {
   renamePropertyImages,
