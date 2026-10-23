@@ -3,12 +3,16 @@
   "destacado": "NO",
   "localidad": "Villa Regina",
   "orden": 0,
-  "direccion": "Yapeyu Sur 570",
+  "fotos": [
+    "../inmuebles/imagenes/propiedad-21.jpg"
+  ],
+  "direccion": "Yapeyu Sur 571",
   "visible": "SI",
   "capacidad": "2",
   "categoria": "Alquiler",
   "tamanio": 50,
   "tipo": "Departamento",
   "stock": "SI",
+  "id": 1,
   "detalles": "dsfsdf"
 }
