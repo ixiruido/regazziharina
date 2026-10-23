@@ -4,11 +4,8 @@
   "localidad": "Ingeniero Huergo, Río Negro",
   "orden": "",
   "fotos": [
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg"
+    "../inmuebles/imagenes/propiedad-1-1.jpg",
+    "../inmuebles/imagenes/propiedad-1-2.jpg"
   ],
   "direccion": "Colón 345",
   "visible": "SI",
@@ -17,5 +14,6 @@
   "tamanio": 250,
   "tipo": "Casa",
   "stock": "NO",
+  "id": 1,
   "detalles": "Amplia casa de 4 habitaciones, 3 baños y garage doble. Posee un gran patio parquizado con parrilla y piscina climatizada."
 }
