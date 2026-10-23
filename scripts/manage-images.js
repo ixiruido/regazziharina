@@ -197,7 +197,11 @@ function main() {
         const rutaRelativa = img.ruta.replace(/\\/g, '/');
         const referida = Array.from(referencias).some(ref => {
             const refNormalizada = ref.replace(/\\/g, '/');
-            return rutaRelativa.includes(refNormalizada) || refNormalizada.includes(rutaRelativa);
+            // Normalizar: agregar prefijo 'inmuebles/' si la referencia no lo tiene
+            const refConPrefijo = refNormalizada.startsWith('inmuebles/') 
+                ? refNormalizada 
+                : `inmuebles/${refNormalizada}`;
+            return rutaRelativa.includes(refConPrefijo) || refConPrefijo.includes(rutaRelativa);
         });
         return !referida;
     });
@@ -216,12 +220,14 @@ function main() {
     if (!checkOnly) {
         if (cleanDupes && duplicados.length > 0) {
             console.log('🧹 Limpiando duplicados...\n');
+            const imagenesEliminadas = new Set();
             duplicados.forEach(({ hash, imagenes }) => {
                 // Mantener la primera imagen, eliminar el resto
                 const [mantener, ...eliminar] = imagenes;
                 eliminar.forEach(img => {
                     if (!dryRun) {
                         fs.unlinkSync(img.ruta);
+                        imagenesEliminadas.add(img.ruta);
                         console.log(`  ✗ Eliminado: ${img.ruta}`);
                     } else {
                         console.log(`  [DRY RUN] Se eliminaría: ${img.ruta}`);
@@ -229,6 +235,11 @@ function main() {
                 });
             });
             console.log('');
+
+            // Filtrar huérfanas para excluir las que ya fueron eliminadas como duplicados
+            if (cleanOrphan) {
+                imagenesHuérfanas = imagenesHuérfanas.filter(img => !imagenesEliminadas.has(img.ruta));
+            }
         }
 
         if (cleanOrphan && imagenesHuérfanas.length > 0) {
