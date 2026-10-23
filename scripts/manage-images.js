@@ -145,6 +145,7 @@ function extraerRutasImagenes(objeto, referencias) {
                 rutaNormalizada = rutaNormalizada.replace(/\\/g, '/');
                 
                 referencias.add(rutaNormalizada);
+                console.log(`      🔍 Referencia encontrada: ${valor} → ${rutaNormalizada}`);
             }
         } else if (typeof valor === 'object') {
             extraerRutasImagenes(valor, referencias);
