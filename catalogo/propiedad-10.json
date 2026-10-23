@@ -1,15 +1,14 @@
 {
-  "id": 10,
   "precio": "USD 65.000",
   "destacado": "NO",
   "localidad": "Villa Regina, Río Negro",
   "orden": "",
   "fotos": [
-    "imagenes/propiedad-11.jpg",
-    "imagenes/propiedad-11.jpg",
-    "imagenes/propiedad-11.jpg",
-    "imagenes/propiedad-11.jpg",
-    "imagenes/propiedad-11.jpg"
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg"
   ],
   "direccion": "Las Heras 215",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 600,
   "tipo": "Terreno",
   "stock": "NO",
+  "id": 10,
   "detalles": "Terreno en esquina comercial estratégica. Listo para transferir con escritura inmediata y planos de subdivisión aprobados."
 }
