@@ -8,8 +8,8 @@ backend:
   auth_endpoint: auth
 
 # Configuración de archivos adjuntos
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+media_folder: "../inmuebles/imagenes"
+public_folder: "../inmuebles/imagenes"
 
 # Configuración de las colecciones
 collections:
