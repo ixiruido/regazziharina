@@ -1,0 +1,17 @@
+{
+  "precio": "USD 80.000",
+  "destacado": "NO",
+  "localidad": "Centenario",
+  "fotos": [
+    "../inmuebles/imagenes/asd.jpg",
+    "../inmuebles/imagenes/images.jpg"
+  ],
+  "direccion": "san juan y rio negro",
+  "visible": "SI",
+  "categoria": "Venta",
+  "tamanio": 175,
+  "tipo": "Casa",
+  "stock": "SI",
+  "id": 1,
+  "detalles": "prueba"
+}
