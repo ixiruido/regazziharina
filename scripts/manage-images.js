@@ -72,18 +72,24 @@ function obtenerReferenciasImagenes() {
 
     // Leer archivos JSON individuales en carpetas
     CARPETAS_JSON.forEach(carpeta => {
-        if (!fs.existsSync(carpeta)) return;
+        if (!fs.existsSync(carpeta)) {
+            console.log(`  ⚠️  Carpeta no encontrada: ${carpeta}`);
+            return;
+        }
 
         const archivos = fs.readdirSync(carpeta);
+        console.log(`  📂 Escaneando carpeta: ${carpeta} (${archivos.length} archivos)`);
+        
         archivos.forEach(archivo => {
             if (archivo.endsWith('.json') && archivo !== 'index.json') {
                 const rutaArchivo = path.join(carpeta, archivo);
                 try {
                     const contenido = fs.readFileSync(rutaArchivo, 'utf-8');
                     const datos = JSON.parse(contenido);
+                    console.log(`    ✅ Leído: ${archivo}`);
                     extraerRutasImagenes(datos, referencias);
                 } catch (e) {
-                    console.error(`Error al leer ${rutaArchivo}:`, e.message);
+                    console.error(`    ❌ Error al leer ${rutaArchivo}:`, e.message);
                 }
             }
         });
@@ -91,14 +97,17 @@ function obtenerReferenciasImagenes() {
 
     // Leer archivos JSON individuales
     ARCHIVOS_JSON.forEach(archivo => {
-        if (!fs.existsSync(archivo)) return;
+        if (!fs.existsSync(archivo)) {
+            console.log(`  ⚠️  Archivo no encontrado: ${archivo}`);
+            return;
+        }
 
         try {
             const contenido = fs.readFileSync(archivo, 'utf-8');
             const datos = JSON.parse(contenido);
             extraerRutasImagenes(datos, referencias);
         } catch (e) {
-            console.error(`Error al leer ${archivo}:`, e.message);
+            console.error(`  ❌ Error al leer ${archivo}:`, e.message);
         }
     });
 
@@ -198,7 +207,7 @@ function main() {
     // Obtener referencias de imágenes en JSONs
     console.log('📖 Escaneando referencias en archivos JSON...\n');
     const referencias = obtenerReferenciasImagenes();
-    console.log(`📊 Total de referencias encontradas: ${referencias.size}\n`);
+    console.log(`\n📊 Total de referencias encontradas: ${referencias.size}\n`);
     console.log('📋 Referencias detectadas:');
     Array.from(referencias).forEach(ref => console.log(`  - ${ref}`));
     console.log('');
