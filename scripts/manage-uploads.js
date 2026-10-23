@@ -233,6 +233,16 @@ function main() {
     const resultado = obtenerReferenciasImagenes(nombresArchivos);
     const referencias = resultado.referencias;
 
+    // Protección: no borrar archivos si no se detectó ninguna referencia.
+    if (referencias.size === 0 && todosLosArchivos.length > 0) {
+    console.error(
+        '\n⛔ Limpieza cancelada: se encontraron archivos, ' +
+        'pero ninguna referencia. No se eliminará nada.'
+    );
+    process.exitCode = 1;
+    return;
+    }
+
     console.log(`\n📊 Referencias encontradas: ${referencias.size}`);
 
     // Si algún JSON no pudo leerse, no eliminar nada.
