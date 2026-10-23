@@ -108,7 +108,10 @@ async function cargarProductos() {
             try {
                 const response = await fetch(`../catalogo/${archivo}`);
                 if (response.ok) {
-                    return await response.json();
+                    const propiedad = await response.json();
+                    // Guardar el nombre del archivo sin extensión en la propiedad
+                    propiedad.nombreArchivo = archivo.replace('.json', '');
+                    return propiedad;
                 }
                 return null;
             } catch (e) {
@@ -1786,11 +1789,11 @@ function abrirModalProducto(producto) {
         modalContent.scrollTop = 0;
     }
 
-    // Actualizar URL con el ID de la propiedad
-    if (producto.id) {
+    // Actualizar URL con el nombre del archivo de la propiedad
+    if (producto.nombreArchivo) {
         const url = new URL(window.location);
-        url.searchParams.set('propiedad', producto.id);
-        window.history.pushState({ propiedadId: producto.id }, '', url);
+        url.searchParams.set('propiedad', producto.nombreArchivo);
+        window.history.pushState({ propiedadArchivo: producto.nombreArchivo }, '', url);
     }
 
     // Mostrar modal dentro del iframe
@@ -1862,9 +1865,9 @@ modalWhatsapp.addEventListener('click', () => {
 
 // Evento para el botón de compartir
 modalCompartir.addEventListener('click', async () => {
-    if (productoActualModal && productoActualModal.id) {
+    if (productoActualModal && productoActualModal.nombreArchivo) {
         const url = new URL(window.location);
-        url.searchParams.set('propiedad', productoActualModal.id);
+        url.searchParams.set('propiedad', productoActualModal.nombreArchivo);
         const urlCompleta = url.toString();
 
         try {
@@ -1969,14 +1972,14 @@ window.addEventListener(
 
 function verificarParametroUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    const propiedadId = urlParams.get('propiedad');
+    const propiedadArchivo = urlParams.get('propiedad');
 
-    if (propiedadId) {
+    if (propiedadArchivo) {
         // Esperar a que los productos estén cargados
         const intervalo = setInterval(() => {
             if (productos.length > 0) {
                 clearInterval(intervalo);
-                const producto = productos.find(p => p.id == propiedadId);
+                const producto = productos.find(p => p.nombreArchivo === propiedadArchivo);
                 if (producto) {
                     abrirModalProducto(producto);
                 }
