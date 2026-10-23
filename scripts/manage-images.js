@@ -117,6 +117,29 @@ function obtenerReferenciasImagenes() {
 
 // Función recursiva para extraer rutas de imágenes de un objeto JSON
 function extraerRutasImagenes(objeto, referencias) {
+    // Si es un string directo (elemento de array), procesarlo
+    if (typeof objeto === 'string') {
+        if (objeto.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+            let rutaNormalizada = objeto.trim();
+            
+            if (rutaNormalizada.startsWith('../')) {
+                rutaNormalizada = rutaNormalizada.substring(3);
+            }
+            if (rutaNormalizada.startsWith('./')) {
+                rutaNormalizada = rutaNormalizada.substring(2);
+            }
+            if (rutaNormalizada.startsWith('/')) {
+                rutaNormalizada = rutaNormalizada.substring(1);
+            }
+            
+            rutaNormalizada = rutaNormalizada.replace(/\\/g, '/');
+            
+            referencias.add(rutaNormalizada);
+            console.log(`      🔍 Referencia encontrada: ${objeto} → ${rutaNormalizada}`);
+        }
+        return;
+    }
+
     if (typeof objeto !== 'object' || objeto === null) return;
 
     if (Array.isArray(objeto)) {
@@ -126,32 +149,7 @@ function extraerRutasImagenes(objeto, referencias) {
     }
 
     Object.values(objeto).forEach(valor => {
-        if (typeof valor === 'string') {
-            // Detectar rutas de imágenes
-            if (valor.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
-                // Normalizar la ruta
-                let rutaNormalizada = valor.trim();
-                
-                // Eliminar prefijos de ruta relativos y absolutos
-                if (rutaNormalizada.startsWith('../')) {
-                    rutaNormalizada = rutaNormalizada.substring(3);
-                }
-                if (rutaNormalizada.startsWith('./')) {
-                    rutaNormalizada = rutaNormalizada.substring(2);
-                }
-                if (rutaNormalizada.startsWith('/')) {
-                    rutaNormalizada = rutaNormalizada.substring(1);
-                }
-                
-                // Reemplazar backslashes con forward slashes
-                rutaNormalizada = rutaNormalizada.replace(/\\/g, '/');
-                
-                referencias.add(rutaNormalizada);
-                console.log(`      🔍 Referencia encontrada: ${valor} → ${rutaNormalizada}`);
-            }
-        } else if (typeof valor === 'object') {
-            extraerRutasImagenes(valor, referencias);
-        }
+        extraerRutasImagenes(valor, referencias);
     });
 }
 
