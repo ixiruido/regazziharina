@@ -164,8 +164,8 @@ function renamePropertyImages(propertyFile) {
       console.log(
         `[DEBUG] ${propertyId}, foto ${i + 1}: ${nombreOriginal}`,
         archivoEncontrado
-          ? `ENCONTRADA: ${archivoEncontrado.ruta}`
-          : 'NO ENCONTRADA'
+          ? `✅ENCONTRADA: ${archivoEncontrado.ruta}`
+          : '❌NO ENCONTRADA'
       );
 
       if (!archivoEncontrado) {
