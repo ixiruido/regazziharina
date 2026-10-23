@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'catalogo/*.json'
+      - 'avisos/*.json'
   workflow_dispatch:
 
 permissions:
