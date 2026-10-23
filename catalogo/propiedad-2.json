@@ -1,15 +1,14 @@
 {
-  "id": 2,
   "precio": "USD 45.000",
   "destacado": "SI",
   "localidad": "Neuquén, Neuquén",
   "orden": 2,
   "fotos": [
-    "imagenes/propiedad-3.jpg",
-    "imagenes/propiedad-3.jpg",
-    "imagenes/propiedad-3.jpg",
-    "imagenes/propiedad-3.jpg",
-    "imagenes/propiedad-3.jpg"
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg",
+    "../inmuebles/imagenes/propiedad-3.jpg"
   ],
   "direccion": "Roca 205",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 400,
   "tipo": "Terreno",
   "stock": "SI",
+  "id": 2,
   "detalles": "Lote completamente limpio y nivelado. Cuenta con servicios en puerta, ideal para construcción inmediata en zona residencial."
 }
