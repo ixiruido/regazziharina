@@ -1762,7 +1762,7 @@ function abrirModalProducto(producto) {
         modalMapa.innerHTML = `
             <iframe
                 width="100%"
-                height="300"
+                height="200"
                 style="border:0; border-radius: 8px; margin-top: 15px;"
                 loading="lazy"
                 allowfullscreen
