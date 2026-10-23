@@ -4,10 +4,8 @@
   "localidad": "Villa Regina, Río Negro",
   "orden": 3,
   "fotos": [
-    "../inmuebles/imagenes/r6rgvl6.jpg",
     "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg"
+    "../inmuebles/imagenes/r6rgvl6.jpg"
   ],
   "direccion": "Rivadavia 220",
   "visible": "SI",
@@ -16,5 +14,6 @@
   "tamanio": 150,
   "tipo": "Casa",
   "stock": "SI",
+  "id": 1,
   "detalles": "Cuenta con 3 habitaciones, 2 baños, garage cubierto y un patio amplio con parrilla. Excelente iluminación natural."
 }
