@@ -20,9 +20,7 @@ const path = require('path');
 
 // Configuración
 const DIRECTORIOS_IMAGENES = [
-    'inmuebles/imagenes',
-    'assets/uploads',
-    'images'
+    'inmuebles/imagenes'
 ];
 
 const ARCHIVOS_JSON = [
