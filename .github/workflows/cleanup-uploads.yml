@@ -1,11 +1,14 @@
-name: Cleanup Images
+
+name: Cleanup Uploads
 
 on:
   workflow_dispatch:
   push:
     paths:
       - 'avisos/*.json'
+      - 'avisos/**/*.json'
       - 'catalogo/*.json'
+      - 'catalogo/**/*.json'
       - 'inmuebles/imagenes/**'
 
 jobs:
@@ -23,15 +26,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Run image cleanup
-        run: node scripts/manage-images.js --clean-dupes --clean-orphan
+      - name: Run unused file cleanup
+        run: node scripts/manage-images.js --clean-orphan
 
       - name: Commit changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A
-          git diff --staged --quiet || git commit -m "Automated image cleanup"
+          git diff --staged --quiet || git commit -m "Automated unused file cleanup"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
