@@ -116,7 +116,7 @@ collections:
         field:
           label: "Archivo de imagen"
           name: "foto"
-          widget: "file"
+          widget: "image"
           media_folder: "../inmuebles/imagenes"
           public_folder: "../inmuebles/imagenes"
 
