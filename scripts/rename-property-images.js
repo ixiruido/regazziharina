@@ -145,7 +145,9 @@ function renamePropertyImages(propertyFile) {
       }
 
       const archivoEncontrado = buscarImagen(nombreOriginal);
+      console.log(`[DEBUG] ${propertyId}, foto ${index + 1}: ${nombreOriginal}`, archivoEncontrado ? `ENCONTRADA: ${archivoEncontrado.ruta}` : 'NO ENCONTRADA');
 
+      
       if (!archivoEncontrado) {
         console.warn(
           `⚠️ No se encontró ${nombreOriginal}; se conserva la referencia original`
