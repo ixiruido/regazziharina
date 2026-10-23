@@ -6,18 +6,16 @@ const IMAGENES_DIR = path.join(__dirname, '..', 'inmuebles', 'imagenes');
 const ASSETS_DIR = path.join(__dirname, '..', 'assets', 'uploads');
 
 /**
- * Renombra las imágenes de una propiedad con el prefijo del ID
+ * Renombra las imágenes de una propiedad con el prefijo del nombre del archivo JSON
  * @param {string} propertyFile - Ruta al archivo JSON de la propiedad
  */
 function renamePropertyImages(propertyFile) {
   try {
     const property = JSON.parse(fs.readFileSync(propertyFile, 'utf8'));
-    const propertyId = property.id;
 
-    if (!propertyId) {
-      console.log(`⚠️  La propiedad ${propertyFile} no tiene ID`);
-      return;
-    }
+    // Extraer el nombre del archivo sin extensión como identificador
+    const fileName = path.basename(propertyFile, '.json');
+    const propertyId = fileName;
 
     if (!property.fotos || !Array.isArray(property.fotos)) {
       console.log(`ℹ️  La propiedad ${propertyId} no tiene fotos`);
@@ -31,12 +29,12 @@ function renamePropertyImages(propertyFile) {
       const fotoPath = foto.foto || foto;
 
       // Extraer el nombre del archivo de la ruta
-      let fileName = path.basename(fotoPath);
-      const ext = path.extname(fileName);
-      const nameWithoutExt = path.basename(fileName, ext);
+      let imageFileName = path.basename(fotoPath);
+      const ext = path.extname(imageFileName);
+      const nameWithoutExt = path.basename(imageFileName, ext);
 
-      // Si ya tiene el prefijo del ID, no renombrar
-      if (nameWithoutExt.startsWith(`propiedad-${propertyId}-`)) {
+      // Si ya tiene el prefijo del nombre del archivo, no renombrar
+      if (nameWithoutExt.startsWith(`${propertyId}-`)) {
         updatedFotos.push(foto);
         continue;
       }
@@ -46,8 +44,8 @@ function renamePropertyImages(propertyFile) {
       let targetDir = null;
 
       const possiblePaths = [
-        { dir: IMAGENES_DIR, file: fileName },
-        { dir: ASSETS_DIR, file: fileName }
+        { dir: IMAGENES_DIR, file: imageFileName },
+        { dir: ASSETS_DIR, file: imageFileName }
       ];
 
       for (const { dir, file } of possiblePaths) {
@@ -60,18 +58,18 @@ function renamePropertyImages(propertyFile) {
       }
 
       if (!sourcePath) {
-        console.log(`⚠️  No se encontró el archivo ${fileName} en ninguna carpeta`);
+        console.log(`⚠️  No se encontró el archivo ${imageFileName} en ninguna carpeta`);
         updatedFotos.push(foto);
         continue;
       }
 
-      // Generar nuevo nombre con prefijo del ID
-      const newFileName = `propiedad-${propertyId}-${nameWithoutExt}${ext}`;
+      // Generar nuevo nombre con prefijo del nombre del archivo JSON
+      const newFileName = `${propertyId}-${nameWithoutExt}${ext}`;
       const targetPath = path.join(targetDir, newFileName);
 
       // Renombrar el archivo
       fs.renameSync(sourcePath, targetPath);
-      console.log(`✅ Renombrado: ${fileName} → ${newFileName}`);
+      console.log(`✅ Renombrado: ${imageFileName} → ${newFileName}`);
 
       // Actualizar la referencia en el array de fotos
       if (typeof foto === 'object' && foto.foto) {
