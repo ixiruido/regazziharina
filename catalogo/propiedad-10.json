@@ -4,11 +4,12 @@
   "localidad": "Villa Regina, Río Negro",
   "orden": "",
   "fotos": [
-    "../inmuebles/imagenes/propiedad-10-1.jpg"
+    "../inmuebles/imagenes/propiedad-10-1.jpg",
+    "../inmuebles/imagenes/propiedad-1-2.jpg"
   ],
   "direccion": "Las Heras 215",
   "visible": "SI",
-  "capacidad": "N/A",
+  "capacidad": "5",
   "categoria": "Venta",
   "tamanio": 600,
   "tipo": "Terreno",
