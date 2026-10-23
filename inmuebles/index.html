@@ -133,6 +133,7 @@
     <!-- MODAL DE PRODUCTO (para fallback si no hay comunicación con página principal) -->
     <div id="producto-modal" class="producto-modal oculto">
         <div class="modal-content">
+            <div class="modal-brand">REGAZZI-HARINA</div>
             <button class="modal-close" aria-label="Cerrar modal">
                 ✕
             </button>
@@ -154,11 +155,14 @@
                     </div>
                     <div class="modal-info">
                         <span id="modal-categoria" class="modal-categoria"></span>
-                        <h2 id="modal-nombre"></h2>
+                        <div class="modal-header-info">
+                            <h2 id="modal-nombre"></h2>
+                            <div class="modal-header-info-right">
+                                <div id="modal-precio" class="modal-precio"></div>
+                                <div id="modal-stock" class="modal-stock"></div>
+                            </div>
+                        </div>
                         <div id="modal-descripcion" class="modal-descripcion"></div>
-                        <div id="modal-precio" class="modal-precio"></div>
-                        <div id="modal-stock" class="modal-stock"></div>
-                        <div id="modal-mapa" class="modal-mapa"></div>
                         <div class="modal-botones">
                             <button id="modal-compartir" class="modal-compartir-btn">
                                 Compartir
@@ -167,6 +171,7 @@
                                 Consultar
                             </button>
                         </div>
+                        <div id="modal-mapa" class="modal-mapa"></div>
                     </div>
                 </div>
             </div>
