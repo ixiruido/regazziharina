@@ -119,13 +119,15 @@ function extraerRutasImagenes(objeto, referencias) {
             // Detectar rutas de imágenes
             if (valor.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
                 // Normalizar la ruta
-                let rutaNormalizada = valor;
+                let rutaNormalizada = valor.trim();
                 if (rutaNormalizada.startsWith('/')) {
                     rutaNormalizada = rutaNormalizada.substring(1);
                 }
                 if (rutaNormalizada.startsWith('./')) {
                     rutaNormalizada = rutaNormalizada.substring(2);
                 }
+                // Reemplazar backslashes con forward slashes
+                rutaNormalizada = rutaNormalizada.replace(/\\/g, '/');
                 referencias.add(rutaNormalizada);
             }
         } else if (typeof valor === 'object') {
@@ -190,18 +192,22 @@ function main() {
     console.log('📖 Escaneando referencias en archivos JSON...\n');
     const referencias = obtenerReferenciasImagenes();
     console.log(`📊 Total de referencias encontradas: ${referencias.size}\n`);
+    console.log('📋 Referencias detectadas:');
+    Array.from(referencias).forEach(ref => console.log(`  - ${ref}`));
+    console.log('');
 
     // Detectar imágenes huérfanas
     const imagenesHuérfanas = todasLasImagenes.filter(img => {
-        // Verificar si la ruta está en las referencias
-        const rutaRelativa = img.ruta.replace(/\\/g, '/');
+        // Extraer el nombre del archivo de la imagen
+        const nombreArchivo = img.nombre;
+        
+        // Verificar si el nombre del archivo está en alguna referencia
         const referida = Array.from(referencias).some(ref => {
             const refNormalizada = ref.replace(/\\/g, '/');
-            // Normalizar: agregar prefijo 'inmuebles/' si la referencia no lo tiene
-            const refConPrefijo = refNormalizada.startsWith('inmuebles/') 
-                ? refNormalizada 
-                : `inmuebles/${refNormalizada}`;
-            return rutaRelativa.includes(refConPrefijo) || refConPrefijo.includes(rutaRelativa);
+            // Extraer el nombre del archivo de la referencia
+            const nombreRef = path.basename(refNormalizada);
+            // Match por nombre exacto del archivo
+            return nombreArchivo === nombreRef;
         });
         return !referida;
     });
