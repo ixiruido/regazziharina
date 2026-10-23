@@ -5,10 +5,10 @@
   "orden": 2,
   "fotos": [
     "../inmuebles/imagenes/propiedad-2-1.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg",
-    "../inmuebles/imagenes/propiedad-3.jpg"
+    "../inmuebles/imagenes/propiedad-2-2.jpg",
+    "../inmuebles/imagenes/propiedad-2-3.jpg",
+    "../inmuebles/imagenes/propiedad-2-4.jpg",
+    "../inmuebles/imagenes/propiedad-2-5.jpg"
   ],
   "direccion": "Roca 205",
   "visible": "SI",
