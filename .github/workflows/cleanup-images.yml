@@ -2,9 +2,11 @@ name: Cleanup Images
 
 on:
   workflow_dispatch:
-  schedule:
-    # Ejecutar cada día a las 3 AM UTC
-    - cron: '0 3 * * *'
+  push:
+    paths:
+      - 'avisos/*.json'
+      - 'catalogo/*.json'
+      - 'inmuebles/imagenes/**'
 
 jobs:
   cleanup:
