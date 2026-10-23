@@ -26,7 +26,7 @@ const DIRECTORIOS_IMAGENES = [
 const ARCHIVOS_JSON = [
     'avisos-index.json',
     'catalogo-index.json',
-    'catalogo/config.json'
+    'inmuebles/config.json'
 ];
 
 const CARPETAS_JSON = [
@@ -87,6 +87,7 @@ function obtenerReferenciasImagenes() {
                     const contenido = fs.readFileSync(rutaArchivo, 'utf-8');
                     const datos = JSON.parse(contenido);
                     console.log(`    ✅ Leído: ${archivo}`);
+                    console.log(`    📄 Estructura: ${JSON.stringify(Object.keys(datos))}`);
                     extraerRutasImagenes(datos, referencias);
                 } catch (e) {
                     console.error(`    ❌ Error al leer ${rutaArchivo}:`, e.message);
@@ -119,6 +120,7 @@ function extraerRutasImagenes(objeto, referencias) {
     if (typeof objeto !== 'object' || objeto === null) return;
 
     if (Array.isArray(objeto)) {
+        console.log(`      📋 Array encontrado con ${objeto.length} elementos`);
         objeto.forEach(item => extraerRutasImagenes(item, referencias));
         return;
     }
