@@ -1,15 +1,14 @@
 {
-  "id": 4,
   "precio": "ARS 600.000",
   "destacado": "NO",
   "localidad": "Ingeniero Huergo, Río Negro",
   "orden": "",
   "fotos": [
-    "imagenes/propiedad-5.jpg",
-    "imagenes/propiedad-5.jpg",
-    "imagenes/propiedad-5.jpg",
-    "imagenes/propiedad-5.jpg",
-    "imagenes/propiedad-5.jpg"
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg"
   ],
   "direccion": "Colón 345",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 250,
   "tipo": "Casa",
   "stock": "NO",
+  "id": 4,
   "detalles": "Amplia casa de 4 habitaciones, 3 baños y garage doble. Posee un gran patio parquizado con parrilla y piscina climatizada."
 }
