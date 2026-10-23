@@ -4,10 +4,10 @@
   "localidad": "Villa Regina, Río Negro",
   "orden": 3,
   "fotos": [
-    "imagenes/propiedad-2.jpg",
-    "imagenes/propiedad-2.jpg",
-    "imagenes/propiedad-2.jpg",
-    "imagenes/propiedad-2.jpg"
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg",
+    "../inmuebles/imagenes/propiedad-2.jpg"
   ],
   "direccion": "Rivadavia 220",
   "visible": "SI",
