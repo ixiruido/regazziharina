@@ -1,15 +1,14 @@
 {
-  "id": 9,
   "precio": "ARS 180.000",
   "destacado": "NO",
   "localidad": "Neuquén, Neuquén",
   "orden": "",
   "fotos": [
-    "imagenes/propiedad-10.jpg",
-    "imagenes/propiedad-10.jpg",
-    "imagenes/propiedad-10.jpg",
-    "imagenes/propiedad-10.jpg",
-    "imagenes/propiedad-10.jpg"
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg"
   ],
   "direccion": "Avenida Argentina 150",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 45,
   "tipo": "Local",
   "stock": "SI",
+  "id": 9,
   "detalles": "Oficina o local comercial con 1 baño y kitchenette integrada. Ubicado en complejo moderno con expensas bajas."
 }
