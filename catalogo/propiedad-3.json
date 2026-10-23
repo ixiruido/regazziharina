@@ -1,15 +1,14 @@
 {
-  "id": 3,
   "precio": "ARS 450.000",
   "destacado": "NO",
   "localidad": "General Roca, Río Negro",
   "orden": "",
   "fotos": [
-    "imagenes/propiedad-4.jpg",
-    "imagenes/propiedad-4.jpg",
-    "imagenes/propiedad-4.jpg",
-    "imagenes/propiedad-4.jpg",
-    "imagenes/propiedad-4.jpg"
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg",
+    "../inmuebles/imagenes/propiedad-4.jpg"
   ],
   "direccion": "Avenida Roca 1450",
   "visible": "SI",
@@ -18,5 +17,6 @@
   "tamanio": 120,
   "tipo": "Local",
   "stock": "SI",
+  "id": 3,
   "detalles": "Espacio comercial a la calle con gran vidriera. Incluye 2 baños para el público y depósito privado al fondo. Sin habitaciones."
 }
