@@ -1,0 +1,12 @@
+{
+  "name": "regazziharina",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Procesamiento y optimización de imágenes de propiedades",
+  "scripts": {
+    "optimize-images": "node scripts/optimize-images.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.3"
+  }
+}
