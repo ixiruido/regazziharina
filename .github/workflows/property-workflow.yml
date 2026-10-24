@@ -5,6 +5,7 @@ on:
     paths:
       - 'catalogo/*.json'
       - 'avisos/*.json'
+      - 'inmuebles/imagenes/**'
   workflow_dispatch:
 
 permissions:
@@ -26,11 +27,20 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Instalar dependencias
+        run: npm ci
+
       - name: Asignar números secuenciales
         run: node scripts/assign-property-number.js
 
       - name: Renombrar imágenes de propiedades
         run: node scripts/rename-property-images.js
+
+      - name: Optimizar imágenes
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_SHA: ${{ github.sha }}
+        run: node scripts/optimize-images.js
 
       - name: Generar índices
         run: node scripts/generate-index.js
