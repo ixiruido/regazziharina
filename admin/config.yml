@@ -111,10 +111,10 @@ collections:
         hint: "Ej.: USD 95.000 o ARS 450.000"
 
       - name: "fotos"
-        label: "Fotos de la propiedad (máximo 5)"
+        label: "Fotos de la propiedad (máximo 10)"
         widget: "list"
         required: false
-        max: 5
+        max: 10
         field:
           label: "Archivo de imagen"
           name: "foto"
