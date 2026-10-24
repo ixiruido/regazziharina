@@ -50,6 +50,8 @@ collections:
         label: "Documento Adjunto (PDF o Imagen)"
         widget: "file"
         required: false
+        media_folder: "../inmuebles/imagenes"
+        public_folder: "../inmuebles/imagenes"
 
  
   - name: "catalogo"
