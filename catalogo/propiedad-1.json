@@ -6,7 +6,9 @@
   "fotos": [
     "../inmuebles/imagenes/propiedad-1-1.jpg",
     "../inmuebles/imagenes/propiedad-1-2.jpg",
-    "../inmuebles/imagenes/propiedad-1-3.jpg"
+    "../inmuebles/imagenes/propiedad-1-3.jpg",
+    "../inmuebles/imagenes/eaaaa.avif",
+    "../inmuebles/imagenes/adadad.jpg"
   ],
   "direccion": "Rivadavia 220",
   "visible": "SI",
