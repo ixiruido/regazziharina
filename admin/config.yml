@@ -17,7 +17,7 @@ collections:
     label: "Editar Avisos"
     folder: "avisos"
     create: true
-    slug: "{{slug}}"
+    slug: "{{slug}}-{{year}}{{month}}{{day}}"
     identifier_field: "titulo"
     summary: "{{titulo}} - {{fecha}} - {{autor}}"
     extension: "json"
