@@ -1738,13 +1738,13 @@ function abrirModalProducto(producto) {
     if (producto.localidad || producto.direccion || producto.tamanio) {
         modalDetalleHTML += '<div class="modal-info-propiedad">';
         if (producto.localidad) {
-            modalDetalleHTML += `<span class="modal-propiedad-localidad">Ubicación: ${escaparHTML(producto.localidad)}</span>`;
+            modalDetalleHTML += `<span class="modal-propiedad-localidad">${escaparHTML(producto.localidad)}</span>`;
         }
         if (producto.direccion) {
-            modalDetalleHTML += `<span class="modal-propiedad-direccion">Dirección: ${escaparHTML(producto.direccion)}</span>`;
+            modalDetalleHTML += `<span class="modal-propiedad-direccion">${escaparHTML(producto.direccion)}</span>`;
         }
         if (producto.tamanio) {
-            modalDetalleHTML += `<span class="modal-propiedad-tamanio">Tamaño: ${escaparHTML(producto.tamanio)} m²</span>`;
+            modalDetalleHTML += `<span class="modal-propiedad-tamanio">${escaparHTML(producto.tamanio)} m²</span>`;
         }
         modalDetalleHTML += '</div>';
     }
