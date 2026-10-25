@@ -2,39 +2,23 @@
     box-sizing: border-box;
 }
 
-/* Fondo ligeramente oscuro para la página del catálogo */
+
 body {
-    background-color: #f0f0f0 !important;
+    margin: 0;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background: transparent;
+    color: #1a202c;
+    overflow-x: hidden;
+    width: 100%;
 }
+
 
 .catalogo {
     width: 100%;
     margin: 0 auto;
-    padding: 100px 20px 60px;
+    padding: 30px 20px 60px;
     background: transparent;
     overflow-x: hidden;
-    color: #1a202c;
-}
-
-/* Asegurar que todos los textos dentro del catálogo sean oscuros */
-.catalogo * {
-    color: inherit;
-}
-
-.catalogo .producto h2,
-.catalogo .producto-precio,
-.catalogo .producto-descripcion,
-.catalogo .producto-direccion,
-.catalogo .producto-categoria,
-.catalogo .catalogo-info,
-.catalogo .modal-info h2,
-.catalogo .modal-precio,
-.catalogo .modal-descripcion,
-.catalogo .modal-categoria,
-.catalogo .modal-propiedad-localidad,
-.catalogo .modal-propiedad-direccion,
-.catalogo .modal-propiedad-tamanio {
-    color: #1a202c !important;
 }
 
 /* Limitar ancho en pantallas grandes */
@@ -42,38 +26,55 @@ body {
     .catalogo {
         max-width: 1100px;
     }
-    
-    /* Aumentar ligeramente el tamaño de textos en pantallas grandes */
+
+    /* Mantener tamaño base en pantallas grandes */
     body {
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
-    
+
     .buscador input {
-        font-size: 17px;
+        font-size: 16px;
     }
-    
+
     #ordenar {
-        font-size: 16px;
+        font-size: 15px;
     }
-    
+
     .categorias-select {
-        font-size: 16px;
+        font-size: 15px;
     }
-    
+
     .producto h2 {
-        font-size: 17px;
+        font-size: 15px;
     }
-    
+
     .producto-descripcion {
-        font-size: 14px;
+        font-size: 11px;
     }
-    
+
     .producto-precio {
-        font-size: 19px;
+        font-size: 18px;
     }
-    
+
     .producto-categoria {
-        font-size: 13px;
+        font-size: 12px;
+    }
+
+    /* Reducir tamaño de ubicación, tamaño y dirección */
+    .producto-direccion {
+        font-size: 10px;
+    }
+
+    .propiedad-localidad,
+    .propiedad-tamanio {
+        font-size: 10px;
+        padding: 2px 5px;
+    }
+
+    /* Reducir tamaño del botón consultar */
+    .producto-boton {
+        padding: 8px 10px;
+        font-size: 12px;
     }
 }
 
@@ -364,7 +365,7 @@ body {
 
     font-size: 12px;
 
-    color: #4a5568;
+    color: #777;
 
     text-transform: uppercase;
 
@@ -378,7 +379,6 @@ body {
     font-size: 16px;
 
     line-height: 1.25;
-    color: #1a202c;
 }
 
 
@@ -440,7 +440,6 @@ body {
     font-weight: bold;
 
     margin-top: auto;
-    color: #1a202c;
 }
 
 
@@ -637,7 +636,7 @@ body {
 }
 
 .modal-content {
-    background: white !important;
+    background: white;
     border-radius: 16px;
     max-width: 900px;
     width: 100%;
@@ -648,7 +647,6 @@ body {
     margin: auto;
     display: flex;
     flex-direction: column;
-    color: #1a202c !important;
 }
 
 .modal-brand {
@@ -714,7 +712,7 @@ body {
 }
 
 .modal-imagen {
-    background: #fafafa !important;
+    background: #fafafa;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -836,16 +834,11 @@ body {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    color: #1a202c !important;
-}
-
-.modal-info * {
-    color: #1a202c !important;
 }
 
 .modal-categoria {
     font-size: 12px;
-    color: #4a5568;
+    color: #777;
     text-transform: uppercase;
     letter-spacing: 0.4px;
     margin-bottom: 10px;
@@ -864,7 +857,6 @@ body {
     font-size: 24px;
     line-height: 1.3;
     flex: 1;
-    color: #1a202c;
 }
 
 .modal-header-info-right {
@@ -875,7 +867,7 @@ body {
 }
 
 .modal-descripcion {
-    color: #1a202c !important;
+    color: #666;
     font-size: 15px;
     line-height: 1.6;
     margin-bottom: 20px;
@@ -921,7 +913,6 @@ body {
     font-size: 22px;
     font-weight: bold;
     margin: 0;
-    color: #1a202c;
 }
 
 .modal-stock {
@@ -1085,6 +1076,39 @@ body {
             repeat(4, minmax(0, 1fr));
     }
 
+}
+
+/* =========================
+   RESOLUCIÓN INTERMEDIA
+========================= */
+
+@media (min-width: 701px) and (max-width: 1399px) {
+    .producto h2 {
+        font-size: 15px;
+    }
+
+    .producto-descripcion {
+        font-size: 11px;
+    }
+
+    .producto-direccion {
+        font-size: 10px;
+    }
+
+    .propiedad-localidad,
+    .propiedad-tamanio {
+        font-size: 10px;
+        padding: 2px 5px;
+    }
+
+    .producto-boton {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .producto-categoria {
+        font-size: 12px;
+    }
 }
 
 
