@@ -686,6 +686,11 @@ body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0;
+        overflow: hidden;
+    }
+
+    .modal-imagen {
+        overflow: hidden;
     }
 }
 
@@ -697,6 +702,8 @@ body {
     justify-content: flex-start;
     padding: 10px 30px 30px;
     min-height: 300px;
+    max-width: 100%;
+    width: 100%;
 }
 
 .slider-container {
@@ -761,9 +768,11 @@ body {
     gap: 8px;
     margin-top: 15px;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 5px;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
+    white-space: nowrap;
 }
 
 .slider-thumbnails::-webkit-scrollbar {
