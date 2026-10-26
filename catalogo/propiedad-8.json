@@ -4,18 +4,17 @@
   "localidad": "Villa Regina, Río Negro",
   "orden": 1,
   "fotos": [
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg"
+    "../inmuebles/imagenes/d_667372-mla115964043794_092026-f.webp",
+    "../inmuebles/imagenes/d_695689-mla115963691776_092026-f.webp",
+    "../inmuebles/imagenes/d_824391-mla115964398922_092026-f.webp"
   ],
   "direccion": "Avenida 9 de Julio 100",
   "visible": "SI",
   "capacidad": "5",
   "categoria": "Alquiler",
   "tamanio": 180,
-  "tipo": "Casa",
+  "tipo": "Departamento",
   "stock": "NO",
+  "id": 1,
   "detalles": "Casa familiar con 3 habitaciones, 2 baños completos y garage cerrado. Patio mediano con buena sombra y jardín delantero."
 }
