@@ -4,11 +4,10 @@
   "localidad": "General Roca, Río Negro",
   "orden": "",
   "fotos": [
-    "../inmuebles/imagenes/propiedad-3-1.jpg",
-    "../inmuebles/imagenes/propiedad-3-2.jpg",
-    "../inmuebles/imagenes/propiedad-3-3.jpg",
-    "../inmuebles/imagenes/propiedad-3-4.jpg",
-    "../inmuebles/imagenes/propiedad-3-5.jpg"
+    "../inmuebles/imagenes/marketprop-inmueble-alquiler-locales-rincon-de-los-sauces-266-7561754669318.webp",
+    "../inmuebles/imagenes/marketprop-inmueble-alquiler-locales-rincon-de-los-sauces-266-2181754669317.webp",
+    "../inmuebles/imagenes/marketprop-inmueble-alquiler-locales-rincon-de-los-sauces-266-2591754669317.webp",
+    "../inmuebles/imagenes/marketprop-inmueble-alquiler-locales-rincon-de-los-sauces-266-9691754669318.webp"
   ],
   "direccion": "Avenida Roca 1450",
   "visible": "SI",
