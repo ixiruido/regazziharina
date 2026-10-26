@@ -4,11 +4,13 @@
   "localidad": "Ingeniero Huergo, Río Negro",
   "orden": "",
   "fotos": [
-    "../inmuebles/imagenes/propiedad-7-1.jpg",
-    "../inmuebles/imagenes/propiedad-7-2.jpg",
-    "../inmuebles/imagenes/propiedad-7-3.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg",
-    "../inmuebles/imagenes/propiedad-2.jpg"
+    "../inmuebles/imagenes/d_660105-mla113250121480_072026-f.webp",
+    "../inmuebles/imagenes/d_904733-mla114489649191_072026-f.webp",
+    "../inmuebles/imagenes/d_694909-mla114490740029_072026-f.webp",
+    "../inmuebles/imagenes/d_784771-mla114489351937_072026-f.webp",
+    "../inmuebles/imagenes/d_646144-mla114490415641_072026-f.webp",
+    "../inmuebles/imagenes/d_816565-mla114491097021_072026-f.webp",
+    "../inmuebles/imagenes/d_794169-mla114490740069_072026-f.webp"
   ],
   "direccion": "Avenida San Martín 520",
   "visible": "SI",
