@@ -12,8 +12,7 @@
     "../inmuebles/imagenes/propiedad-1-6.jpg",
     "../inmuebles/imagenes/propiedad-1-7.jpg",
     "../inmuebles/imagenes/propiedad-1-8.avif",
-    "../inmuebles/imagenes/propiedad-1-9.jpg",
-    "../inmuebles/imagenes/propiedad-1-10.jpg"
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvigIw7_yxeQQ7FUVShha30TPvYQiSCvEo4heo5MRBOQrOs2SKPtb60gw&s=10"
   ],
   "direccion": "Rivadavia 220",
   "visible": "SI",
