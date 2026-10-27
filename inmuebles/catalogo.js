@@ -1804,6 +1804,8 @@ function abrirModalProducto(producto) {
         if (modalElement) {
             modalElement.scrollTo(0, 0);
         }
+        // Centrar la primera thumbnail
+        centrarThumbnailActiva();
     }, 10);
 }
 
@@ -1934,6 +1936,25 @@ function cambiarFoto(index) {
     thumbnails.forEach((thumb, i) => {
         thumb.classList.toggle('active', i === sliderIndex);
     });
+
+    // Centrar la thumbnail activa
+    centrarThumbnailActiva();
+}
+
+// Función para centrar la thumbnail activa en el contenedor
+function centrarThumbnailActiva() {
+    const thumbnails = sliderThumbnails.querySelectorAll('.thumbnail');
+    const activeThumb = thumbnails[sliderIndex];
+    if (activeThumb) {
+        const containerWidth = sliderThumbnails.offsetWidth;
+        const thumbOffset = activeThumb.offsetLeft;
+        const thumbWidth = activeThumb.offsetWidth;
+        const scrollPosition = thumbOffset - (containerWidth / 2) + (thumbWidth / 2);
+        sliderThumbnails.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
 }
 
 // Eventos de flechas del slider
@@ -1943,6 +1964,61 @@ sliderPrev.addEventListener('click', () => {
 
 sliderNext.addEventListener('click', () => {
     cambiarFoto(sliderIndex + 1);
+});
+
+// ============================
+// ZOOM CON LUPA - Solo Desktop
+// ============================
+
+const zoomLens = document.getElementById('zoom-lens');
+let isZoomEnabled = window.innerWidth > 768;
+
+// Detectar cambio de tamaño de ventana para habilitar/deshabilitar zoom
+window.addEventListener('resize', () => {
+    isZoomEnabled = window.innerWidth > 768;
+    if (!isZoomEnabled) {
+        zoomLens.style.display = 'none';
+    }
+});
+
+// Eventos de mouse para el zoom
+modalImg.addEventListener('mousemove', (e) => {
+    if (!isZoomEnabled) return;
+
+    const rect = modalImg.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Mostrar la lupa
+    zoomLens.style.display = 'block';
+
+    // Posicionar la lupa centrada en el cursor
+    const lensHalfWidth = zoomLens.offsetWidth / 2;
+    const lensHalfHeight = zoomLens.offsetHeight / 2;
+    let lensX = x - lensHalfWidth;
+    let lensY = y - lensHalfHeight;
+
+    // Evitar que la lupa salga de la imagen
+    if (lensX < 0) lensX = 0;
+    if (lensY < 0) lensY = 0;
+    if (lensX + zoomLens.offsetWidth > rect.width) lensX = rect.width - zoomLens.offsetWidth;
+    if (lensY + zoomLens.offsetHeight > rect.height) lensY = rect.height - zoomLens.offsetHeight;
+
+    zoomLens.style.left = lensX + 'px';
+    zoomLens.style.top = lensY + 'px';
+
+    // Calcular posición del zoom en la imagen de fondo
+    const zoomLevel = 1.5;
+    const bgX = (x / rect.width) * 100;
+    const bgY = (y / rect.height) * 100;
+
+    zoomLens.style.backgroundImage = `url(${modalImg.src})`;
+    zoomLens.style.backgroundSize = `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+    zoomLens.style.backgroundPosition = `-${x * zoomLevel - lensHalfWidth}px -${y * zoomLevel - lensHalfHeight}px`;
+});
+
+modalImg.addEventListener('mouseleave', () => {
+    zoomLens.style.display = 'none';
 });
 
 // Navegación con teclas
