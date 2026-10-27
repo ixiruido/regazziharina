@@ -1,0 +1,17 @@
+{
+  "precio": "0",
+  "destacado": "SI",
+  "localidad": "Villa Regina, Río Negro",
+  "orden": 1,
+  "fotos": [
+    "../inmuebles/imagenes/tu-inmueble.jpg"
+  ],
+  "direccion": "25 de Mayo 87",
+  "visible": "SI",
+  "categoria": "Alquiler",
+  "tamanio": 100,
+  "tipo": "Departamento",
+  "stock": "SI",
+  "id": 1,
+  "detalles": "Contáctate con nosotros para que gestionemos tu propiedad."
+}
