@@ -1794,25 +1794,44 @@ function abrirModalProducto(producto) {
     modal.classList.remove('oculto');
     document.body.style.overflow = 'hidden';
 
-    // Reiniciar scroll del modal al inicio (después de que sea visible)
-    setTimeout(() => {
-        const modalScrollWrapper = document.querySelector('.modal-scroll-wrapper');
-        if (modalScrollWrapper) {
-            modalScrollWrapper.scrollTo(0, 0);
-        }
-        const modalElement = document.querySelector('.producto-modal');
-        if (modalElement) {
-            modalElement.scrollTo(0, 0);
-        }
-        // Centrar la primera thumbnail
-        centrarThumbnailActiva();
-    }, 10);
+    // Reiniciar scroll del modal al inicio (usando requestAnimationFrame para asegurar que sea visible)
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            const modalScrollWrapper = document.querySelector('.modal-scroll-wrapper');
+            if (modalScrollWrapper) {
+                // Forzar recálculo del layout
+                modalScrollWrapper.scrollTop = modalScrollWrapper.scrollHeight;
+                modalScrollWrapper.scrollTop = 0;
+                modalScrollWrapper.scrollLeft = 0;
+            }
+            const modalElement = document.querySelector('.producto-modal');
+            if (modalElement) {
+                modalElement.scrollTop = modalElement.scrollHeight;
+                modalElement.scrollTop = 0;
+                modalElement.scrollLeft = 0;
+            }
+            // Centrar la primera thumbnail
+            centrarThumbnailActiva();
+        });
+    });
 }
 
 function cerrarModalProducto() {
     modal.classList.add('oculto');
     document.body.style.overflow = ''; // Restaurar scroll en el iframe
     productoActualModal = null;
+
+    // Reiniciar scroll del modal al cerrar para el próximo modal
+    const modalScrollWrapper = document.querySelector('.modal-scroll-wrapper');
+    if (modalScrollWrapper) {
+        modalScrollWrapper.scrollTop = 0;
+        modalScrollWrapper.scrollLeft = 0;
+    }
+    const modalElement = document.querySelector('.producto-modal');
+    if (modalElement) {
+        modalElement.scrollTop = 0;
+        modalElement.scrollLeft = 0;
+    }
 
     // Limpiar el parámetro de URL
     const url = new URL(window.location);
