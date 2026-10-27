@@ -45,7 +45,7 @@ header {position: fixed; width: 100%; top: 0;
         var(--gold-primary) 100%);
     background-size: 300% auto; -webkit-background-clip: text;
     background-clip: text; -webkit-text-fill-color: transparent;
-    animation: shine-bounce 8s ease-in-out infinite;
+    animation: shine-bounce 15s ease-in-out infinite;
     text-decoration: none; color: inherit; display: inline-block;}
 .logo:hover {text-decoration: none; color: inherit;}
 @keyframes shine-bounce {
